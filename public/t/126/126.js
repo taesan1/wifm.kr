@@ -601,7 +601,24 @@ if(document.URL.match(page)){
         document.getElementById("showSendTime").innerHTML = "";
         setArrivalTime();
         localStorage.setItem("auto" + window.game_data.village.id,"1")};
+//해당 모드일 시에 sumit버튼
+    var group = localStorage.group;
+    if (mode == "페이크"&&stop==0) {
+        document.getElementsByTagName("h2")[0].innerHTML = '<FONT SIZE=+1"> 페이크 그룹= ' + group + '</FONT><br>';
+        console.log("페이크 클릭");
+        setTimeout(function () {
+            document.forms[0].troop_confirm_submit.click();
+        }, del)
+    };
+    var dodgevilla = localStorage["dodge" + window.game_data.village.id];
 
+    if (mode == "방어"&&stop==0) {
+        if (dodgevilla.length > 6) {
+            setTimeout(function () {
+                document.forms[0].troop_confirm_submit.click();
+            }, (1 + Math.random() * 3) * 1000);
+        }
+    }
 }
 bot();
 //place
