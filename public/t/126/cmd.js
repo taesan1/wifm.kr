@@ -29,7 +29,7 @@ if (mdd == 1) {
     ;
 }if (mdd == 2) {
     if (mode == "방어") {
-        localStorage.setItem("mode", "AM";
+        localStorage.setItem("mode", "AM");
         UI.ErrorMessage('AM모드 시작 ', 1000);
     } else {
         localStorage.setItem("mode", "방어");
