@@ -303,7 +303,21 @@ if (document.URL.match("&screen=train") && rstop == 0 && rec==1) {
         }
     });
 };
-
+//incoming
+page=new RegExp("screen=overview_villages&mode=incomings&subtype=attacks&group=0");
+page1=new RegExp("mode=incomings&action=process&type=unignored&subtype=attacks");
+page2=new RegExp("screen=overview_villages&mode=incomings&type=unignored&subtype=attacks");
+if(document.URL.match(page)||document.URL.match(page1)||document.URL.match(page2)){
+    var monitor_incoming = localStorage["monitor_incoming"];
+    if (!monitor_incoming) {
+        monitor_incoming = 15;
+    };  var dod = localStorage.dodn;
+    if(!dod) {
+        dod = 4;
+        localStorage.dod = 4;
+    };
+    console.log("checking");
+    $.getScript("https://wifm.kr/t/126/ckinc.js");}
 //파밍
 if(document.URL.match("&screen=am_farm")&&lstop==0){
     var l;

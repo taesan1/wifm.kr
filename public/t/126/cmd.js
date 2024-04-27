@@ -16,7 +16,7 @@ if (!stop) {
 }
 
 //모드 세팅
-var mdd = prompt("1= 중지/실행 \n5= 동줍 설정\n66= 자원밸런스 \n666= 자원보내기(그룹) \n77= 코찍자원당기기 \n9= 랠리포인트 초기화 \n11= 메인빌리지 설정 \n111= 팜갓 동줍재설정 \n99= 대기 상태  \n12= 전체 초기화", md);
+var mdd = prompt("1= 중지/실행 \n2= 방어/AM모드 스위치 \n5= 동줍 설정\n66= 자원밸런스 \n666= 자원보내기(그룹) \n77= 코찍자원당기기 \n9= 랠리포인트 초기화 \n11= 메인빌리지 설정 \n111= 팜갓 동줍재설정 \n99= 대기 상태  \n12= 전체 초기화", md);
 localStorage.setItem("mdt", mdd);
 if (mdd == 1) {
     if (stop == 0) {
@@ -25,6 +25,15 @@ if (mdd == 1) {
     } else {
         localStorage.setItem("stop", "0");
         UI.SuccessMessage('시작 ', 1000);
+    }
+    ;
+}if (mdd == 2) {
+    if (mode == "방어") {
+        localStorage.setItem("mode", "AM";
+        UI.ErrorMessage('AM모드 시작 ', 1000);
+    } else {
+        localStorage.setItem("mode", "방어");
+        UI.SuccessMessage('방어모드 시작 ', 1000);
     }
     ;
 }
