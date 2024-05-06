@@ -88,9 +88,6 @@ page=new RegExp("village="+t.vid+"&screen=overview");
 page1=new RegExp("screen=overview&village="+t.vid);
 if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_/)&&stop==0&&t.mode=="AM"){
     console.log("AM모드 실행중")
-    localStorage.setItem("coin",0);
-    var d=document.querySelector("#show_summary > div > div > div.visual-label.visual-label-storage.tooltip-delayed > a > span.building-extra").innerText;
-    localStorage.setItem("pullt",d);
     var la=setInterval(landat,5000);
     bot();
     function landat(){
