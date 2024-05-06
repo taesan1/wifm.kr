@@ -149,7 +149,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
             window.location.reload();}
         //incoming
         var ia=localStorage["ia_"+t.pid];
-        if(ia == null || ia== undefined){ia="0";localStorage.setItem("ia_"+pid ,ia);};
+        if(ia == null || ia== undefined){ia="0";localStorage.setItem("ia_"+t.pid ,ia);};
         if(t.inc>ia){
            UI.ErrorMessage('태그가 진행됩니다 ',15000);
             clearInterval(la);
