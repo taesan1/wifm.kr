@@ -206,9 +206,9 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
         if (inputElement) {
 
             if (b &&d && t.wo < 125 && t.st < 100 && t.ir < 250) {
-                UI.InfoMessage('도끼가 징집됩니다.. ', 4000);
+                UI.InfoMessage('창이 징집됩니다.. ', 4000);
                 b.value = 0;
-                d.value = Math.floor(Math.random() * 3) + 1;
+                a.value = Math.floor(Math.random() * 3) + 1;
             } else if (!b||!d) {
                 if(t.wo < t.ir){
                     UI.InfoMessage('검이 징집됩니다.. ', 4000);
@@ -219,16 +219,16 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
                     c.value = 0;
                 }
             }else if(!b&&d){
-                UI.InfoMessage('도끼 징집됩니다.. ', 4000);
-                d.value = Math.floor(Math.random() * 3) + 1;
+                UI.InfoMessage('창이 징집됩니다.. ', 4000);
+                ㅁ.value = Math.floor(Math.random() * 3) + 1;
             } else if (b && t.wo > 275 && t.st > 190 && t.ir > 280) {
-                UI.InfoMessage('도끼와 기마가 징집됩니다.. ', 4000);
+                UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
-                d.value = Math.floor(Math.random() * 3) + 1
+                ㅁ.value = Math.floor(Math.random() * 3) + 1
             }else if(b && t.wo > 175 && t.st > 130 && t.ir > 260) {
-                UI.InfoMessage('도끼와 기마가 징집됩니다.. ', 4000);
+                UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
-                d.value = 1;
+                ㅁ.value = 1;
             }
             setTimeout(function () {
                 UI.InfoMessage('오버뷰로 이동합니다.. ', 1000);
