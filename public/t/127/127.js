@@ -211,8 +211,8 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 ;localStorage.setItem("now", "스캐빈징");
 
             }else {
-            UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);}
-        }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}}
+            UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..<br>스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);}
+        }else{UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..', 3000);}}
 
             }
         }
