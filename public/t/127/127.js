@@ -181,7 +181,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
             UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
             window.location.reload();
         }else{ if(am.scav==true){ var nnn=parseInt(340-localStorage.nn);
-            InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}esle{
+            InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}else{
             InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다..', 1000);
         }}
         var time4= document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
@@ -193,7 +193,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                     time3.click(); UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000); },Math.floor(Math.random() * 6000)+3100);
             }}else{console.log("건설중인 빌딩이 없어")}
         if(now=="대기"){ if(am.scav==true){ var nnn=parseInt(340-localStorage.nn);
-            InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}esle{
+            InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}else{
             InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다..', 1000);
         }}
     if(localStorage.nn>Math.floor(Math.random() * 40)+300){localStorage.setItem('nn',0)
