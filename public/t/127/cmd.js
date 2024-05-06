@@ -33,7 +33,8 @@ if(md ==1){
     else if(md==1){$.getScript("https://wifm.kr/t/starting/respull.js")}
     else if(md==2){$.getScript('https://wifm.kr/t/starting/resb.js');}
     else if(md==3){$.getScript('https://wifm.kr/t/starting/sender.js');}
-    else if(md==4){}
+    else if(md==4){ $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
+        localStorage.setItem('now', "스캐빈징");localStorage.setItem('nn',0)}
     else if(md==5){}
 }else if(md ==4){
 //초기화

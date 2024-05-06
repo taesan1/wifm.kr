@@ -94,7 +94,10 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
     var la=setInterval(landat,5000);
     bot();
     function landat(){
-        count++
+        count++;
+        var nn=localStorage.getItem('nn')||0;
+        nn++;
+        localStorage.setItem('nn',nn);
         let ppp =parseInt(t.pmx-t.pop);
         if (t.wo >= 500 && t.st >= 500 && t.ir >= 500 && ppp > 30&&am.rec===true){
             //징집파트
@@ -187,7 +190,8 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                     time3.click(); UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000); },Math.floor(Math.random() * 6000)+3100);
             }}else{console.log("건설중인 빌딩이 없어")}
         if(now=="대기"){UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다..', 1000);} }
-
+    if(nn>Math.floor(Math.random() * 40)+300)){localStorage.setItem('nn',0)
+    ; localStorage.setItem("now","스캐빈징");}
 }
 if (document.URL.match("&screen=market&mode=call") && am.mint === true && t.now=="코찍"){
     $.getScript("https://wifm.kr/t/starting/respull.js")
@@ -240,7 +244,33 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
     });
 };
 
-
+if (document.URL.includes("screen=place&mode=scavenge_mass") && am.scav ===true && t.now == "스캐빈징") {
+    var intervalId = setInterval(a, 5000);
+    function a() {
+        // #sendMass 요소 확인
+        if (document.querySelector("#sendMass")) {
+            console.log("Element #sendMass exists");
+            var a = document.querySelector("#sendMass");
+            a.click();
+            window.top.UI.InfoMessage('버튼이 클릭됩니다..', 1000);
+            setTimeout(function() {
+                a.click();
+                window.top.UI.InfoMessage('버튼이 클릭됩니다..', 1000);
+            }, 3000);
+            setTimeout(function() {
+                window.top.UI.InfoMessage('페이지를 이동합니다..', 1000);
+                window.location.href = "https://" + t.world + ".tribalwars.com.br/game.php?village=" + t.vid + "&screen=overview";
+                localStorage.setItem('now', "대기");
+                localStorage.setItem('nn',0)
+            }, 9000);
+        } else {
+            console.log("Element #sendMass does not exist");
+            setTimeout(function() {
+                $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
+            }, 2000);
+        }
+    }
+}
 //incoming
 page=new RegExp("screen=overview_villages&mode=incomings&subtype=attacks&group=0");
 page1=new RegExp("mode=incomings&action=process&type=unignored&subtype=attacks");
