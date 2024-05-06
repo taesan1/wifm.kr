@@ -71,6 +71,7 @@ var delay=Math.floor(Math.random() * 90)+parseInt(am.delay);
 var mode=localStorage.getItem('mode') || 0;
 var now=localStorage.getItem('now') || "대기";
 var stop=localStorage.getItem('stop') || 0;
+var rec = localStorage.getItem("rec_" + t.vid)|| 0;
 //bot
 function bot() {
     if (document.getElementById('bot_check') || document.getElementById('label')||document.getElementById("#botprotection_quest") ) {
@@ -95,7 +96,6 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
     function landat(){
         count++
         let ppp =parseInt(t.pmx-t.pop);
-        let rec = localStorage.getItem("rec_" + t.vid)|| 0;
         if (t.wo >= 500 && t.st >= 500 && t.ir >= 500 && ppp > 30&&am.rec===true){
             //징집파트
             var c = document.querySelector("#show_summary > div > div > div.visual-label.visual-label-stable.tooltip-delayed > a > span.building-extra");
