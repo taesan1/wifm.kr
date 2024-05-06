@@ -157,7 +157,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 localStorage.setItem("ia_"+t.pid,t.inc);
                 localStorage.setItem("now","태그");
                 window.location.href =
-                    "https://"+world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
+                    "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
             },Math.floor(Math.random() * 35000)+5100);
         };
         if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
@@ -234,7 +234,7 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
                 UI.InfoMessage('오버뷰로 이동합니다.. ', 1000);
                 inputElement.click();
                 localStorage.setItem("rec_" + t.vid, "3");
-                window.location.href = "https://" + world + ".tribalwars.com.br/game.php?village=" +t.vid+ "&screen=overview";
+                window.location.href = "https://" + t.world + ".tribalwars.com.br/game.php?village=" +t.vid+ "&screen=overview";
             }, Math.floor(Math.random() * 5000) + 5100);
         }
     });
