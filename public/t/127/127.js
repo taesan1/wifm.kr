@@ -208,11 +208,10 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
             if(count > Math.floor(Math.random() * 40) + 40) {
                 UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
                 window.location.reload();}
-           else {
+           else{
                 if (am.scav === true) {
                     UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);
-                }
-            }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}
+                }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}}
 
 
 
