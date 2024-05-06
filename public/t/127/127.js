@@ -177,7 +177,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
         if(count> Math.floor(Math.random() * 40)+40){
             UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
             window.location.reload();
-        }else{ UI.InfoMessage('모니터링.. ', 1000);};
+        }else{ UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+' '+count+'번 새로고침 되었습니다..', 1000);};
         var time4= document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
         if(time4){
             var time1 =time4.innerText;
@@ -252,8 +252,8 @@ console.log("checking");
 if(document.URL.match("&screen=am_farm")&&am.loot===true){
     var l;
     function farmgod() {
-        if (t.now !== "대기") {
-            UI.InfoMessage("현재 상태는 " + t.now + " 잠시만 기다려주세요.", 5000);
+        if (now !== "대기") {
+            UI.InfoMessage("현재 상태는 " + now + " 잠시만 기다려주세요.", 5000);
             l = setInterval(farmgod, 10000);
         } else {
             var storedOptions = localStorage.getItem('farmGod_options');
@@ -280,7 +280,7 @@ if(document.URL.match("&screen=am_farm")&&am.loot===true){
                 }
                 UI.InfoMessage("동줍을 재설정합니다 ", 2000);
                 l = setInterval(farmgod, 30000);
-            } else if (farmrest !== "done" && farmrest === "0" && t.now == "대기") {
+            } else if (farmrest !== "done" && farmrest === "0" && now == "대기") {
                 UI.InfoMessage("동줍이 시작됩니다.. ", 3000);
                 clearInterval(l);
                 $.getScript("https://wifm.kr/t/starting/farmgod.js");
@@ -292,14 +292,14 @@ if(document.URL.match("&screen=am_farm")&&am.loot===true){
                 }
                 l = setInterval(farmgod, 30000);
                 UI.InfoMessage("스크립트 실행까지 " + farmrest + " 번 남았습니다", 20000);
-            } else if (farmrest == "start" && t.now == "대기" &&(!document.querySelector("#popup_box_FarmGod")||!document.querySelector("#content_value > div.vis.farmGodContent"))) {
+            } else if (farmrest == "start" && now == "대기" &&(!document.querySelector("#popup_box_FarmGod")||!document.querySelector("#content_value > div.vis.farmGodContent"))) {
                 clearInterval(l);
                 UI.InfoMessage(farmrest + " 시작되지 않고 있습니다.. 대기 후 다시 시작됩니다..", 29000);
                 setTimeout(() => {
                     location.reload();
                     localStorage.setItem('farmrest', "0");
                 }, 10000);
-            } else if(farmrest == "wait" && t.now == "대기"&&(!document.querySelector("#popup_box_FarmGod")||!document.querySelector("#content_value > div.vis.farmGodContent"))){
+            } else if(farmrest == "wait" && now == "대기"&&(!document.querySelector("#popup_box_FarmGod")||!document.querySelector("#content_value > div.vis.farmGodContent"))){
                 clearInterval(l);
                 UI.InfoMessage(farmrest + " 실행되었지만 오류가 생겼습니다.. 대기 후 다시 시작됩니다..", 29000);
                 console.log("스크립트 실행 중 자동 새로고침");
