@@ -41,7 +41,7 @@ var t = {
     link:window.location.href,
     mode:localStorage.getItem('mode') || 0,
     now:localStorage.getItem('now') || "대기",
-};
+};console.log("t: "+t);
 //모드 세팅
 let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     group: 0,
