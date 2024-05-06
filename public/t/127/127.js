@@ -186,7 +186,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 setTimeout(function() {
                     time3.click(); UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000); },Math.floor(Math.random() * 6000)+3100);
             }}else{console.log("건설중인 빌딩이 없어")}
-        if(now=="대기"){ UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now, 1000);} }
+        if(now=="대기"){UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+' '+count+'번 새로고침 되었습니다..', 1000);} }
 
 }
 if (document.URL.match("&screen=market&mode=call") && am.mint === true && t.now=="코찍"){
