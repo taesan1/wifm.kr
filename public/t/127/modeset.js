@@ -147,6 +147,7 @@ $(document).ready(function() {
             localStorage.getItem('palavill')||0
             let g1=prompt('팔라 빌리지 좌표를 공백을 구분해서 입력하세요',localStorage.getItem('palavill'))
             localStorage.setItem('palavill',g1);
+            UI.InfoMessage('저장되었습니다.. ', 3000);
         })
         $('.AMoptionButton').click(function() {
             let updatedOptions = {
@@ -159,6 +160,7 @@ $(document).ready(function() {
                 mint: $('.AMoptionMint').is(':checked')
             };
             localStorage.setItem('MODE_AM_options', JSON.stringify(updatedOptions));
+            UI.InfoMessage('저장되었습니다.. ', 3000);
         });
         $('.DEFoptionButton').click(function() {
             let updatedOptions = {
@@ -172,6 +174,7 @@ $(document).ready(function() {
                 dodny:$('.dodny').val()
             };
             localStorage.setItem('MODE_DEF_options', JSON.stringify(updatedOptions));
+            UI.InfoMessage('저장되었습니다.. ', 3000);
         });
         $('.ATToptionButton').click(function() {
             let updatedOptions = {
@@ -185,6 +188,7 @@ $(document).ready(function() {
                 optionMint: $('.ATToptionMint').is(':checked')
             };
             localStorage.setItem('MODE_ATT_options', JSON.stringify(updatedOptions));
+            UI.InfoMessage('저장되었습니다.. ', 3000);
         });
     }
     init();
