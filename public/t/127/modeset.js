@@ -1,6 +1,6 @@
 $(document).ready(function() {
     const init = function () {
-        let AMoptions = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
+        var AM= JSON.parse(localStorage.getItem('MODE_AM_options')) || {
             group: 0,
             delay: 30,
             loot: true,
@@ -10,7 +10,7 @@ $(document).ready(function() {
             mint: true
         };
 
-        let DEFoptions = JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
+        var DEF= JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
             unitratio: 98,
             heavyratio: 98,
             axeratio: 98,
@@ -21,7 +21,7 @@ $(document).ready(function() {
             dodny: 15,
 
         };
-        let ATToptions = JSON.parse(localStorage.getItem('MODE_ATT_options')) || {
+        var ATT= JSON.parse(localStorage.getItem('MODE_ATT_options')) || {
             optionGroup: 0,
             optionDelay: 30,
             optionLoot: true,
@@ -41,19 +41,19 @@ $(document).ready(function() {
 <div id="AM모드" class="mtab-content" style="border-top: 0.2px solid #7D510F; border-bottom: none; border-left: none; border-right: none; border-collapse: separate !important; border-spacing: 0px !important;">
 <table class="vis" style="width:100%;text-align:left;font-size:11px;">
 <tr><h1  style="margin-left:3px; font-size:14px;"><br> AM 설정</h1></tr>
-  <tr><td>그룹id</td><td><input type="text" size="5" class="AMoptionGroup" value="${AMoptions.group}"></td></tr>
-  <tr><td>지연 시간(초)</td><td><input type="text" size="5" class="AMoptionDelay" value="${AMoptions.delay}"></td></tr>
-  <tr><td>동줍 기능</td><td><input type="checkbox" class="AMoptionLoot" ${(AMoptions.loot) ? 'checked' : ''}></td></tr>
+  <tr><td>그룹id</td><td><input type="text" size="5" class="AMoptionGroup" value="${AM.group}"></td></tr>
+  <tr><td>지연 시간(초)</td><td><input type="text" size="5" class="AMoptionDelay" value="${AM.delay}"></td></tr>
+  <tr><td>동줍 기능</td><td><input type="checkbox" class="AMoptionLoot" ${(AM.loot) ? 'checked' : ''}></td></tr>
   <tr>
     <td>동줍(버전)</td>
     <td>
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot1" ${(AMoptions.lootversion =='loot1') ? 'checked' : ''}>farmgod
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot2" ${(AMoptions.lootversion =='loot2') ? 'checked' : ''}>LA(구버전)
+      <input type="radio" name="optionLootVersion" class="AMoptionLoot1" ${(AM.lootversion =='loot1') ? 'checked' : ''}>farmgod
+      <input type="radio" name="optionLootVersion" class="AMoptionLoot2" ${(AM.lootversion =='loot2') ? 'checked' : ''}>LA(구버전)
     </td> 
   </tr>
-  <tr><td>징집 기능</td><td><input type="checkbox" class="AMoptionREC" ${(AMoptions.rec) ? 'checked' : ''}></td></tr>
-  <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AMoptions.scav) ? 'checked' : ''}></td></tr>
-  <tr><td>코찍 기능</td><td><input type="checkbox" class="AMoptionMint" ${(AMoptions.mint) ? 'checked' : ''}></td></tr>
+  <tr><td>징집 기능</td><td><input type="checkbox" class="AMoptionREC" ${(AM.rec) ? 'checked' : ''}></td></tr>
+  <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AM.scav) ? 'checked' : ''}></td></tr>
+  <tr><td>코찍 기능</td><td><input type="checkbox" class="AMoptionMint" ${(AM.mint) ? 'checked' : ''}></td></tr>
 </table><br><input type="button" class="btn AMoptionButton" value="저장"></div>
 
 
@@ -73,27 +73,27 @@ $(document).ready(function() {
  </tr>
  <tr>
  <td>닷지 비율</td>
- <td><input type="text" name="DEFunitratio" class="unitratio" style="width:18px; color: grey;" value="${DEFoptions.unitratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ <td><input type="text" name="DEFunitratio" class="unitratio" style="width:18px; color: grey;" value="${DEF.unitratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
  </td>
- <td><input type="text" name="DEFheavyratio" class="heavyratio" style="width:18px; color: grey;" value="${DEFoptions.heavyratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
- </td>
- <td>닷지 비율</td>
- <td><input type="text" name="DEFaxeratio" class="axeratio" style="width:18px; color: grey;" value="${DEFoptions.axeratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
- </td>
- <td><input type="text" name="DEFlightratio" class="lightratio" style="width:18px; color: grey;" value="${DEFoptions.lightratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ <td><input type="text" name="DEFheavyratio" class="heavyratio" style="width:18px; color: grey;" value="${DEF.heavyratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
  </td>
  <td>닷지 비율</td>
- <td><input type="text" name="DEFspyratio" class="spyratio" style="width:18px; color: grey;" value="${DEFoptions.spyratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ <td><input type="text" name="DEFaxeratio" class="axeratio" style="width:18px; color: grey;" value="${DEF.axeratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
  </td>
- <td><input type="text" name="DEFcatapultratio" class="catratio" style="width:18px; color: grey;" value="${DEFoptions.catapultratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ <td><input type="text" name="DEFlightratio" class="lightratio" style="width:18px; color: grey;" value="${DEF.lightratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ </td>
+ <td>닷지 비율</td>
+ <td><input type="text" name="DEFspyratio" class="spyratio" style="width:18px; color: grey;" value="${DEF.spyratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
+ </td>
+ <td><input type="text" name="DEFcatapultratio" class="catratio" style="width:18px; color: grey;" value="${DEF.catratio}" onfocus="if(this.value=='100') {this.value=''; this.style.color='black';}" onblur="if(this.value=='') {this.value='100'; this.style.color='grey';}">
  </td>
  </tr>
  <tr>
 <td>팔라 빌리지</td>
 <td class="DEFknight"><img src="https://dsen.innogamescdn.com/asset/1d2499b/graphic/unit/unit_knight.png"></td>
 <td><input type="button" class="btn DEFpalaButton" value="입력"></td>
-<td>닷지 시간(분)</td><td><img src="https://dsbr.innogamescdn.com/asset/234518f7/graphic/questionmark.png"></td><td><input type="text" style="width:17px" class="dodn" value="${DEFoptions.dodn}"></td>
-<td>새로 고침(초)</td><td><img src="https://dsbr.innogamescdn.com/asset/234518f7/graphic/questionmark.png"></td><td><input type="text" style="width:17px" class="dodny" value="${DEFoptions.dodny}"></td>
+<td>닷지 시간(분)</td><td><img src="https://dsbr.innogamescdn.com/asset/234518f7/graphic/questionmark.png"></td><td><input type="text" style="width:17px" class="dodn" value="${DEF.dodn}"></td>
+<td>새로 고침(초)</td><td><img src="https://dsbr.innogamescdn.com/asset/234518f7/graphic/questionmark.png"></td><td><input type="text" style="width:17px" class="dodny" value="${DEF.dodny}"></td>
  </tr>
  </tbody>
 </table><br><input type="button" class="btn DEFoptionButton" value="저장"></div>
@@ -103,19 +103,19 @@ $(document).ready(function() {
 <div id="공격모드" class="atab-content" style="border-top: 0.2px solid #7D510F; border-bottom: none; border-left: none; border-right: none; border-collapse: separate !important; border-spacing: 0px !important;">
     <table class="vis" style="width:100%;text-align:left;font-size:11px;">
    <tr><h1  style="margin-left:3px; font-size:14px;"><br> 공격 설정(아직 수정중 이용금지) </h1></tr>
-    <tr><td>그룹</td><td><input type="text" size="5" class="ATToptionGroup" value="${ATToptions.optionGroup}"></td></tr>
-      <tr><td>빌리지 당 발사 횟수</td><td><input type="text" size="5" class="ATToptionDelay" value="${ATToptions.optionDelay}"></td></tr>
-      <tr><td>지연 시간</td><td><input type="checkbox" class="ATToptionLoot" ${(ATToptions.optionLoot) ? 'checked' : ''}></td></tr>
+    <tr><td>그룹</td><td><input type="text" size="5" class="ATToptionGroup" value="${ATT.optionGroup}"></td></tr>
+      <tr><td>빌리지 당 발사 횟수</td><td><input type="text" size="5" class="ATToptionDelay" value="${ATT.optionDelay}"></td></tr>
+      <tr><td>지연 시간</td><td><input type="checkbox" class="ATToptionLoot" ${(ATT.optionLoot) ? 'checked' : ''}></td></tr>
       <tr>
         <td>공격 유형 변경</td>
         <td>
-          <input type="radio" name="optionLootVersion" class="ATToptionLoot1" value="optionLoot1" ${(ATToptions.optionLoot1) ? 'checked' : ''}>페이크
-          <input type="radio" name="optionLootVersion" class="ATToptionLoot2" value="optionLoot2" ${(ATToptions.optionLoot2) ? 'checked' : ''}>팽모드
+          <input type="radio" name="optionLootVersion" class="ATToptionLoot1" value="optionLoot1" ${(ATT.optionLoot1) ? 'checked' : ''}>페이크
+          <input type="radio" name="optionLootVersion" class="ATToptionLoot2" value="optionLoot2" ${(ATT.optionLoot2) ? 'checked' : ''}>팽모드
         </td>
       </tr>
-      <tr><td>정찰병 유무</td><td><input type="checkbox" class="ATToptionREC" ${(ATToptions.optionREC) ? 'checked' : ''}></td></tr>
-      <tr><td>페이크</td><td><input type="checkbox" class="ATToptionScav" ${(ATToptions.optionScav) ? 'checked' : ''}></td></tr>
-      <tr><td>공격</td><td><input type="checkbox" class="ATToptionMint" ${(ATToptions.optionMint) ? 'checked' : ''}></td></tr>
+      <tr><td>정찰병 유무</td><td><input type="checkbox" class="ATToptionREC" ${(ATT.optionREC) ? 'checked' : ''}></td></tr>
+      <tr><td>페이크</td><td><input type="checkbox" class="ATToptionScav" ${(ATT.optionScav) ? 'checked' : ''}></td></tr>
+      <tr><td>공격</td><td><input type="checkbox" class="ATToptionMint" ${(ATT.optionMint) ? 'checked' : ''}></td></tr>
     </table><br><input type="button" class="btn ATToptionButton" value="저장"></div>
     </div>
     `;
