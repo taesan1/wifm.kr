@@ -41,7 +41,7 @@ var t = {
     link:window.location.href,
     mode:localStorage.getItem('mode') || 0,
     now:localStorage.getItem('now') || "대기",
-};console.log("t: "+t);
+};
 //모드 세팅
 let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     group: 0,
@@ -95,8 +95,39 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
     bot();
     function landat(){
         count++;
-        let ppp =parseInt(t.pmx-t.pop);
-        if (t.wo >= 500 && t.st >= 500 && t.ir >= 500 && ppp > 30&&am.rec===true){
+        //incoming
+        var ia=localStorage["ia_"+t.pid];
+        if(ia == null || ia== undefined){ia="0";localStorage.setItem("ia_"+t.pid ,ia);};
+        if(t.inc>ia){
+            UI.ErrorMessage('태그가 진행됩니다 ',15000);
+            clearInterval(la);
+            setTimeout(function(){
+                localStorage.setItem("ia_"+t.pid,t.inc);
+                localStorage.setItem("now","태그");
+                window.location.href =
+                    "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
+            },Math.floor(Math.random() * 35000)+5100);
+        };
+        if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
+
+        //시간 단축
+        var time4 = document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
+        if (time4) {
+            var time1 = time4.innerText;
+            var time2 = parseInt(time1.split(":")[0] * 3600) + parseInt(time1.split(":")[1] * 60) + parseInt(time1.split(":")[2]);
+            if (time2 < 176) {
+                var time3 = document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(3) > a.order_feature.coinbag-free");
+                setTimeout(function () {
+                    time3.click();
+                    UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000);
+                }, Math.floor(Math.random() * 6000) + 3100);
+            }
+        } else {console.log("건설중인 빌딩이 없어")}
+
+        //징집
+        if(am.rec===true){
+            let ppp =parseInt(t.pmx-t.pop);
+        if (t.wo >= 500 && t.st >= 500 && t.ir >= 500 && ppp > 30){
             //징집파트
             var c = document.querySelector("#show_summary > div > div > div.visual-label.visual-label-stable.tooltip-delayed > a > span.building-extra");
             var d = document.querySelector("#show_summary > div > div > div.visual-label.visual-label-barracks.tooltip-delayed > a > span.building-extra");
@@ -133,7 +164,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 }else if((c||d)||(!c&&!d)){
                     // 기마시간 x 병영시간 x 없거나 둘중 하나 있으면
                     rr()};}}
-        if(rec==1&&am.rec===true){
+        if(rec==1&){
             UI.InfoMessage('징집 페이지로 이동합니다..', 2000);
             clearInterval(la);
             setTimeout(function() {
@@ -142,62 +173,51 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                     t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + t.vid + "&screen=train";}
                 if (t.link !== window.location.href) {
                     window.location.href = t.link;}}, Math.floor(Math.random() * 1000) + 6100);
-        }else if(rec==3&&am.rec===true){
+        }else if(rec==3){
             UI.InfoMessage('페이지를 새로고침 합니다 ', 3000);
             localStorage.setItem("rec_" + t.vid, "0");
             localStorage.setItem('now', "대기");
             window.location.reload();}
-        //incoming
-        var ia=localStorage["ia_"+t.pid];
-        if(ia == null || ia== undefined){ia="0";localStorage.setItem("ia_"+t.pid ,ia);};
-        if(t.inc>ia){
-           UI.ErrorMessage('태그가 진행됩니다 ',15000);
-            clearInterval(la);
-            setTimeout(function(){
-                localStorage.setItem("ia_"+t.pid,t.inc);
-                localStorage.setItem("now","태그");
-                window.location.href =
-                    "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
-            },Math.floor(Math.random() * 35000)+5100);
-        };
-        if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
-        //스캐빈징
-        var nn=localStorage.getItem('nn')||0;
-        nn++;
-        localStorage.setItem('nn',nn);
-        var nnn=parseInt(Math.floor(Math.random() * 40)+300);
-        if(nn>nnn &&am.scav===true){localStorage.setItem('nn',0)
-        ; localStorage.setItem("now","스캐빈징");}
+        }
         //코찍페이지
-        d=document.querySelector("#show_summary > div > div > div.visual-label.visual-label-storage.tooltip-delayed > a > span.building-extra").innerText;
-        var duration = parseInt(d.split(":")[0]*60) + parseInt(d.split(":")[1]);
-        if(duration>210&&am.mint===true){
-            UI.SuccessMessage('자원을 당깁니다',10000)
-            clearInterval(la);
-            setTimeout(function(){
-                localStorage.setItem("now","코찍");
-                $.getScript("https://wifm.kr/t/starting/respull.js")
-            },Math.floor(Math.random() * 15000)+5100);
+        if(am.mint===true){
+            d=document.querySelector("#show_summary > div > div > div.visual-label.visual-label-storage.tooltip-delayed > a > span.building-extra").innerText;
+            var duration = parseInt(d.split(":")[0]*60) + parseInt(d.split(":")[1]);
+            if(duration>210){
+                UI.SuccessMessage('자원을 당깁니다',10000)
+                clearInterval(la);
+                setTimeout(function(){
+                    localStorage.setItem("now","코찍");
+                    $.getScript("https://wifm.kr/t/starting/respull.js")
+                },Math.floor(Math.random() * 15000)+5100);
+            }}
+
+        //스캐빈징
+        if(am.scav===true) {
+            var nn = localStorage.getItem('nn') || 0;
+            nn++;
+            localStorage.setItem('nn', nn);
+            var nnn = parseInt(Math.floor(Math.random() * 40) + 300);
+            if (nn > nnn) {
+                localStorage.setItem('nn', 0)
+                $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js')
+                ;localStorage.setItem("now", "스캐빈징");
+
+            }
+            if (count > Math.floor(Math.random() * 40) + 40) {
+                UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
+                window.location.reload();
+            }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다.. <br>스캐빈실행까지 ' + nnn + '번 남았습니다', 1000);}
+        }else{
+            if (count > Math.floor(Math.random() * 40) + 40) {
+                UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
+                window.location.reload();
+            }else{
+            UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..', 1000);}
+                }
+            }
         }
 
-        if(count> Math.floor(Math.random() * 40)+40){
-            UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
-            window.location.reload();
-        }else{if(am.scav===true){UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}
-        else{UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다..', 1000);}}
-        var time4= document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
-        if(time4){
-            var time1 =time4.innerText;
-            var time2 =parseInt(time1.split(":")[0]*3600)+parseInt(time1.split(":")[1]*60)+parseInt(time1.split(":")[2]);
-            if(time2 < 176){var time3= document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(3) > a.order_feature.coinbag-free");
-                setTimeout(function() {
-                    time3.click(); UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000); },Math.floor(Math.random() * 6000)+3100);
-            }}else{console.log("건설중인 빌딩이 없어")}
-
-        if(now=="대기"){if(am.scav===true){UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다.. <br>스캐빈실행까지 '+nnn+'번 남았습니다', 1000);}
-  else{UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now+'<br>'+count+'번 새로고침 되었습니다..', 1000);}}
-
-};}
 
 if (document.URL.match("&screen=market&mode=call") && am.mint === true && t.now=="코찍"){
     $.getScript("https://wifm.kr/t/starting/respull.js")
