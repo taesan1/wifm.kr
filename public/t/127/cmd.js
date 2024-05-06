@@ -1,6 +1,6 @@
 javascript:
 //커맨드 메뉴 관리
-    var stop = localStorage.getItem('stop')  0;
+    var stop = localStorage.getItem('stop')|| 0;
 //모드 세팅 
 var mdd =localStorage.getItem('mdd')  0;;
 var md = prompt("1= 중지/실행 \n2= 모드 \n3= 스크립트 \n4= 초기화 \n5= 상태",mdd);
