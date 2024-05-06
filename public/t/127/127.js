@@ -164,7 +164,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 }else if((c||d)||(!c&&!d)){
                     // 기마시간 x 병영시간 x 없거나 둘중 하나 있으면
                     rr()};}}
-        if(rec==1&){
+        if(rec==1){
             UI.InfoMessage('징집 페이지로 이동합니다..', 2000);
             clearInterval(la);
             setTimeout(function() {
