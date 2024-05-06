@@ -68,7 +68,9 @@ let def = JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
 var page, page1, page2, page3;
 var count =0;
 var delay=Math.floor(Math.random() * 90)+parseInt(am.delay);
-
+var mode=localStorage.getItem('mode') || 0;
+var now=localStorage.getItem('now') || "대기";
+var stop=localStorage.getItem('stop') || 0;
 //bot
 function bot() {
     if (document.getElementById('bot_check') || document.getElementById('label')||document.getElementById("#botprotection_quest") ) {
