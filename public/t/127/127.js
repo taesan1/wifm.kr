@@ -15,7 +15,9 @@ box.style.zIndex = "9999";
 box.addEventListener("click", function() {
     $.getScript(com);
 });
-
+var targetElement = document.querySelector("#header_info > tbody > tr > td:nth-child(4) > table > tbody > tr:nth-child(1) > td > table > tbody > tr > td.box-item.icon-box.firstcell");
+targetElement.style.position = "relative";
+targetElement.appendChild(box);
 // 플레이어 정보
 var t = {
     name: game_data.player.name,
