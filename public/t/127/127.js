@@ -184,7 +184,9 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
         if(t.now=="대기"){ UI.InfoMessage('모니터링.. \n 현재 mode: '+t.mode+' 현재 상태: '+t.now, 1000);} }
 
 }
-
+if (document.URL.match("&screen=market&mode=call") && am.mint === true && t.now=="코찍"){
+    $.getScript("https://wifm.kr/t/starting/respull.js")
+}
 if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
     bot()
     UI.InfoMessage('징집됩니다.. ', 1000);
