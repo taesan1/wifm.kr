@@ -95,6 +95,10 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
     bot();
     function landat(){
         count++;
+        console.log("작동시작");
+        if(count > Math.floor(Math.random() * 40) + 40) {
+            UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
+            window.location.reload();}else {
         //incoming
         var ia=localStorage["ia_"+t.pid];
         if(ia == null || ia== undefined){ia="0";localStorage.setItem("ia_"+t.pid ,ia);};
@@ -122,10 +126,11 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                     UI.InfoMessage('건물의 시간을 단축합니다.. ', 1000);
                 }, Math.floor(Math.random() * 6000) + 3100);
             }
-        } else {console.log("건설중인 빌딩이 없어")}
-
+        }
+        console.log("인커밍과 건물단축 확인");
         //징집
         if(am.rec===true){
+            console.log("징집확인");
             let ppp =parseInt(t.pmx-t.pop);
         if (t.wo >= 500 && t.st >= 500 && t.ir >= 500 && ppp > 30){
             //징집파트
@@ -181,6 +186,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
         }
         //코찍페이지
         if(am.mint===true){
+            console.log("코찍확인");
             d=document.querySelector("#show_summary > div > div > div.visual-label.visual-label-storage.tooltip-delayed > a > span.building-extra").innerText;
             var duration = parseInt(d.split(":")[0]*60) + parseInt(d.split(":")[1]);
             if(duration>210){
@@ -194,6 +200,7 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
 
         //스캐빈징
         if(am.scav===true) {
+            console.log("스캐빈징확인");
             var nn = localStorage.getItem('nn') || 0;
             nn++;
             localStorage.setItem('nn', nn);
@@ -203,17 +210,9 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js')
                 ;localStorage.setItem("now", "스캐빈징");
 
-            }}
-
-            if(count > Math.floor(Math.random() * 40) + 40) {
-                UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
-                window.location.reload();}
-           else{
-                if (am.scav === true) {
-                    UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);
-                }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}}
-
-
+            }else {
+            UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);}
+        }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}}
 
             }
         }
