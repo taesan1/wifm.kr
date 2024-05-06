@@ -203,18 +203,19 @@ if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_
                 $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js')
                 ;localStorage.setItem("now", "스캐빈징");
 
-            }
-            if (count > Math.floor(Math.random() * 40) + 40) {
+            }}
+
+            if(count > Math.floor(Math.random() * 40) + 40) {
                 UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
-                window.location.reload();
-            }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈실행까지 ' + nnn + '번 남았습니다', 3000);}
-        }else{
-            if (count > Math.floor(Math.random() * 40) + 40) {
-                UI.InfoMessage('페이지를 새로고침 합니다 ', 1000);
-                window.location.reload();
-            }else{
-            UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}
+                window.location.reload();}
+           else {
+                if (am.scav === true) {
+                    UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다.. \n스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);
                 }
+            }else{UI.InfoMessage('모니터링.. \n 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '\n' + count + '번 새로고침 되었습니다..', 3000);}
+
+
+
             }
         }
 
@@ -250,15 +251,15 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
                 }
             }else if(!b&&d){
                 UI.InfoMessage('창이 징집됩니다.. ', 4000);
-                ㅁ.value = Math.floor(Math.random() * 3) + 1;
+                a.value = Math.floor(Math.random() * 3) + 1;
             } else if (b && t.wo > 275 && t.st > 190 && t.ir > 280) {
                 UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
-                ㅁ.value = Math.floor(Math.random() * 3) + 1
+                a.value = Math.floor(Math.random() * 3) + 1
             }else if(b && t.wo > 175 && t.st > 130 && t.ir > 260) {
                 UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
-                ㅁ.value = 1;
+                a.value = 1;
             }
             setTimeout(function () {
                 UI.InfoMessage('오버뷰로 이동합니다.. ', 1000);
