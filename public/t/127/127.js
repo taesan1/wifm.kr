@@ -86,7 +86,8 @@ if(t.now=="bot"&&document.getElementById('bot_check') == null&&!document.getElem
 // Main
 page=new RegExp("village="+t.vid+"&screen=overview");
 page1=new RegExp("screen=overview&village="+t.vid);
-if((document.URL.match(page)||document.URL.match(page1))&&!document.URL.match(/_/)&&stop==0&&t.mode=="AM"){
+page2=new RegExp("screen=overview&intro");
+if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page2))&&!document.URL.match(/_/)&&stop==0&&t.mode=="AM"){
     console.log("AM모드 실행중")
     var la=setInterval(landat,5000);
     bot();
