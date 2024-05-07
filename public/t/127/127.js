@@ -203,13 +203,14 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
             nn++;
             localStorage.setItem('nn', nn);
             var nnn = parseInt(Math.floor(Math.random() * 40) + 300);
+            var nnnn = nnn-nn;
             if (nn > nnn) {
                 localStorage.setItem('nn', 0)
                 $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js')
                 ;localStorage.setItem("now", "스캐빈징");
 
             }else {
-            UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..<br>스캐빈징실행까지 ' + nnn + '번 남았습니다', 3000);}
+            UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..<br>스캐빈징실행까지 ' + nnnn + '번 남았습니다', 3000);}
         }else{UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..', 3000);}}
 
             }
