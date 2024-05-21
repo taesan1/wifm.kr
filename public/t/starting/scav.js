@@ -45,11 +45,11 @@ if (document.URL.includes("screen=report")&&now=="대기"){
 
         function processRow() {
             if (i < cc && continueProcessing) { // continueProcessing 상태 확인
-                row = table.rows[i];
-                var end = /selectAll/g.test(row.cells[0].innerHTML);
-                if (end) {
-                    i = cc;
-                } else {
+                    row = table.rows[i];
+                    var end = /selectAll/g.test(row.cells[0].innerHTML);
+                    if (end) {
+                        i = cc;
+                    } else {
                     var scav = /coletar/g.test(row.cells[1].innerHTML);
                     console.log("scav " + scav);
                     if (scav) {
