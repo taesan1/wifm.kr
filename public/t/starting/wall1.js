@@ -69,7 +69,7 @@ if (isTargetPage) {
                     catapult: $('.catapult').val(),
                 };
                 localStorage.setItem('wallset', JSON.stringify(updatedOptions));
-                UI.InfoMessage('저장되었습니다.. ', 3000);
+                UI.InfoMessage('저장되었습니다.. ', 1000);
                 Dialog.close("설정",html);
                 var c=setInterval(a,500);
             });}
@@ -85,7 +85,7 @@ else {
         if (/t=/g.test(bbb)) {
             sitter = "t=" + (bbb.split("t=")[1]).split("&")[0];
         }
-        alert("잦밀페이지로 이동합니다..");
+    UI.InfoMessage('동줍창으로 이동합니다.. 재실행해주세요 ', 1000);
         var bbb = document.URL.split('?')[0] + "?" + sitter + "&village=" + villageid + "&screen=am_farm";
         window.location.href = bbb;
     }
