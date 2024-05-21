@@ -76,7 +76,7 @@ if (isTargetPage) {
         init();
 
 
-    })
+    })}
 else {
 
         var sitter = "";
