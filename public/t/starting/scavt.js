@@ -2,7 +2,7 @@ javascript:
 if(document.URL.includes("&screen=place&mode=scavenge_mass")) {
 var time; var cc=0;
 var scavtime=localStorage.getItem('scavtime')|| 30;
-var c=prompt("몇분 뒤 스캐빈징을 시작할지 설정하세요. 최소 10분 이상!",localStorage.scavtime);
+var c=prompt("몇분뒤에 스캐빈징을 시작할지 숫자(분)를 입력하세요.",localStorage.scavtime);
 localStorage.setItem('scavtime',c);
 UI.InfoMessage('시작합니다 화면을 유지해주세요..', 2000);
 function b(){
@@ -10,7 +10,7 @@ function b(){
         var scavt=parseInt(localStorage.scavtime)*6;
         var scavtt=scavt-cc;
         if(cc<scavt){
-        UI.InfoMessage(scavtt+'번 뒤에 실행됩니다', 5000);}
+        UI.InfoMessage(scavtt+'번 새로고침 뒤에 실행됩니다', 5000);}
         else{
             time=setInterval(b, 5000);
             // #sendMass 요소 확인
