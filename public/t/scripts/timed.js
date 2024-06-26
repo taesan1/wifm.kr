@@ -1,9 +1,4 @@
-
-    var aaa = window.location.href;
-    var targetUrl = "&screen=place&try=confirm";
-    var isTargetPage = aaa.includes(targetUrl);
-    if (isTargetPage) {
-        var setArrivalHtml =
+ var setArrivalHtml =
             `<tr>
         <td>
             설정된 도착시간:
@@ -45,16 +40,3 @@
             }, 1);
         };
         setArrivalTime(inputTime, inputMs);
-
-    }else {
-
-            var sitter = "";
-            var bbb = window.location.href;
-            var villageid = (bbb.split("village=")[1]).split("&")[0];
-            if (/t=/g.test(bbb)) {
-                sitter = "t=" + (bbb.split("t=")[1]).split("&")[0];
-            }
-            alert("잦밀페이지로 이동합니다..");
-            var bbb = document.URL.split('?')[0] + "?" + sitter + "&village=" + villageid + "&screen=place&try=confirm";
-            window.location.href = bbb;
-        }
