@@ -21,7 +21,7 @@ if(md ==1){
     localStorage.setItem("mode1", md);
     if(md ==0){
         //모드 세팅
-        $.getScript("https://wifm.kr/t/127/modeset.js");
+        $.getScript("https://wifm.kr/t/128/modeset.js");
     }
     else if(md ==1){localStorage.setItem("mode", "AM"); UI.ErrorMessage('AM모드가 설정되었습니다 ', 2000);}
     else if(md==2){localStorage.setItem("mode", "방어"); UI.ErrorMessage('방어모드가 설정되었습니다 ', 2000);}

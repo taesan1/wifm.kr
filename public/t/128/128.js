@@ -46,11 +46,12 @@ var t = {
 let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     group: 0,
     delay: 30,
-    loot: true,
+    loot: false,
     lootversion: 'loot1',
     rec: true,
-    scav: true,
-    mint: true
+    recversion:'rec1',
+    scav: false,
+    mint: false
 };
 
 let def = JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
@@ -246,17 +247,28 @@ if (document.URL.match("&screen=train") && am.rec === true && rec==1) {
                     a.value = Math.floor(Math.random() * 3) + 1;
                     c.value = 0;
                 }
-            }else if(!b&&d){
-                UI.InfoMessage('창이 징집됩니다.. ', 4000);
-                a.value = Math.floor(Math.random() * 3) + 1;
-            } else if (b && t.wo > 275 && t.st > 190 && t.ir > 280) {
+            }else if(!b&&d&&am.recversion=="rec2"){
+                UI.InfoMessage('도끼병이 징집됩니다.. ', 4000);
+                d.value = Math.floor(Math.random() * 3) + 1;
+            }else if(!b&&!d){
+                UI.InfoMessage('창병이 징집됩니다.. ', 4000);
+                d.value = Math.floor(Math.random() * 3) + 1;
+            } else if (b && t.wo > 275 && t.st > 190 && t.ir > 280 &&am.recversion=="rec1") {
                 UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
                 a.value = Math.floor(Math.random() * 3) + 1
-            }else if(b && t.wo > 175 && t.st > 130 && t.ir > 260) {
+            }else if(b && t.wo > 175 && t.st > 130 && t.ir > 260&&am.recversion=="rec1") {
                 UI.InfoMessage('창과 기마가 징집됩니다.. ', 4000);
                 b.value = 1;
                 a.value = 1;
+            }else if (b && t.wo > 275 && t.st > 190 && t.ir > 280 &&am.recversion=="rec2") {
+                UI.InfoMessage('도끼병과 기마가 징집됩니다.. ', 4000);
+                b.value = 1;
+                d.value = Math.floor(Math.random() * 3) + 1
+            }else if(b && t.wo > 175 && t.st > 130 && t.ir > 260&&am.recversion=="rec2") {
+                UI.InfoMessage('도끼병과 기마가 징집됩니다.. ', 4000);
+                b.value = 1;
+                d.value = 1;
             }
             setTimeout(function () {
                 UI.InfoMessage('오버뷰로 이동합니다.. ', 1000);

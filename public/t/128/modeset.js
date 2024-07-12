@@ -3,11 +3,12 @@ $(document).ready(function() {
         var AM= JSON.parse(localStorage.getItem('MODE_AM_options')) || {
             group: 0,
             delay: 30,
-            loot: true,
+            loot: false,
             lootversion: 'loot1',
             rec: true,
-            scav: true,
-            mint: true
+            recversion:'rec1',
+            scav: false,
+            mint: false
         };
 
         var DEF= JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
@@ -52,6 +53,13 @@ $(document).ready(function() {
     </td> 
   </tr>
   <tr><td>징집 기능</td><td><input type="checkbox" class="AMoptionREC" ${(AM.rec) ? 'checked' : ''}></td></tr>
+  <tr>
+    <td>징집 유닛</td>
+    <td>
+      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='rec1') ? 'checked' : ''}>창/검병
+      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='rec2') ? 'checked' : ''}>도끼
+    </td> 
+  </tr>
   <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AM.scav) ? 'checked' : ''}></td></tr>
   <tr><td>코찍 기능</td><td><input type="checkbox" class="AMoptionMint" ${(AM.mint) ? 'checked' : ''}></td></tr>
 </table><br><input type="button" class="btn AMoptionButton" value="저장"></div>
@@ -156,6 +164,7 @@ $(document).ready(function() {
                 rec: $('.AMoptionREC').is(':checked'),
                 loot: $('.AMoptionLoot').is(':checked'),
                 lootversion: $('input[name="optionLootVersion"]:checked').val(),
+                recversion: $('input[name="optionrecVersion"]:checked').val(),
                 scav: $('.AMoptionScav').is(':checked'),
                 mint: $('.AMoptionMint').is(':checked')
             };
