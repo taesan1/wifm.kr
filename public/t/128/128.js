@@ -49,7 +49,7 @@ let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     loot: false,
     lootversion: 'AMoptionLoot1',
     rec: true,
-    recversion:'rec1',
+    recversion:'AMoptionrec1',
     scav: false,
     mint: false
 };
