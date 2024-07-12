@@ -57,7 +57,7 @@ $(document).ready(function() {
     <td>징집 유닛</td>
     <td>
       <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='rec1') ? 'checked' : ''}>창/검병
-      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='rec2') ? 'checked' : ''}>도끼
+      <input type="radio" name="optionrecVersion" class="AMoptionrec2" ${(AM.recversion =='rec2') ? 'checked' : ''}>도끼
     </td> 
   </tr>
   <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AM.scav) ? 'checked' : ''}></td></tr>
