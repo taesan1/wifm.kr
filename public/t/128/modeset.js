@@ -6,7 +6,7 @@ $(document).ready(function() {
             loot: false,
             lootversion: 'AMoptionLoot1',
             rec: true,
-            recversion:'AMoptionrec1',
+            recversion: 'AMoptionrec1',
             scav: false,
             mint: false
         };
@@ -48,16 +48,16 @@ $(document).ready(function() {
   <tr>
     <td>동줍(버전)</td>
     <td>
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot1" ${(AM.lootversion =='AMoptionLoot1') ? 'checked' : ''}>farmgod
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot2" ${(AM.lootversion =='AMoptionLoot2') ? 'checked' : ''}>LA(구버전)
+      <input type="checkbox" name="optionLootVersion" class="AMoptionLoot1" ${(AM.lootversion =='AMoptionLoot1') ? 'checked' : ''}>farmgod
+      <input type="checkbox" name="optionLootVersion" class="AMoptionLoot2" ${(AM.lootversion =='AMoptionLoot2') ? 'checked' : ''}>LA(구버전)
     </td> 
   </tr>
   <tr><td>징집 기능</td><td><input type="checkbox" class="AMoptionREC" ${(AM.rec) ? 'checked' : ''}></td></tr>
   <tr>
     <td>징집 유닛</td>
     <td>
-      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='AMoptionrec1') ? 'checked' : ''}>창/검병
-      <input type="radio" name="optionrecVersion" class="AMoptionrec2" ${(AM.recversion =='AMoptionrec2') ? 'checked' : ''}>도끼
+      <input type="checkbox" name="optionRecVersion" class="AMoptionrec1" ${(AM.recversion =='AMoptionrec1') ? 'checked' : ''}>창/검병
+      <input type="checkbox" name="optionRecVersion" class="AMoptionrec2" ${(AM.recversion =='AMoptionrec2') ? 'checked' : ''}>도끼
     </td> 
   </tr>
   <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AM.scav) ? 'checked' : ''}></td></tr>
@@ -164,7 +164,7 @@ $(document).ready(function() {
                 rec: $('.AMoptionREC').is(':checked'),
                 loot: $('.AMoptionLoot').is(':checked'),
                 lootversion: $('input[name="optionLootVersion"]:checked').val(),
-                recversion: $('input[name="optionrecVersion"]:checked').val(),
+                recversion: $('input[name="optionRecVersion"]:checked').val(),
                 scav: $('.AMoptionScav').is(':checked'),
                 mint: $('.AMoptionMint').is(':checked')
             };
