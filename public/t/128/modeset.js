@@ -4,9 +4,9 @@ $(document).ready(function() {
             group: 0,
             delay: 30,
             loot: false,
-            lootversion: 'loot1',
+            lootversion: 'AMoptionLoot1',
             rec: true,
-            recversion:'rec1',
+            recversion:'AMoptionrec1',
             scav: false,
             mint: false
         };
@@ -48,16 +48,16 @@ $(document).ready(function() {
   <tr>
     <td>동줍(버전)</td>
     <td>
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot1" ${(AM.lootversion =='loot1') ? 'checked' : ''}>farmgod
-      <input type="radio" name="optionLootVersion" class="AMoptionLoot2" ${(AM.lootversion =='loot2') ? 'checked' : ''}>LA(구버전)
+      <input type="radio" name="optionLootVersion" class="AMoptionLoot1" ${(AM.lootversion =='AMoptionLoot1') ? 'checked' : ''}>farmgod
+      <input type="radio" name="optionLootVersion" class="AMoptionLoot2" ${(AM.lootversion =='AMoptionLoot2') ? 'checked' : ''}>LA(구버전)
     </td> 
   </tr>
   <tr><td>징집 기능</td><td><input type="checkbox" class="AMoptionREC" ${(AM.rec) ? 'checked' : ''}></td></tr>
   <tr>
     <td>징집 유닛</td>
     <td>
-      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='rec1') ? 'checked' : ''}>창/검병
-      <input type="radio" name="optionrecVersion" class="AMoptionrec2" ${(AM.recversion =='rec2') ? 'checked' : ''}>도끼
+      <input type="radio" name="optionrecVersion" class="AMoptionrec1" ${(AM.recversion =='AMoptionrec1') ? 'checked' : ''}>창/검병
+      <input type="radio" name="optionrecVersion" class="AMoptionrec2" ${(AM.recversion =='AMoptionrec2') ? 'checked' : ''}>도끼
     </td> 
   </tr>
   <tr><td>스캐빈징 기능</td><td><input type="checkbox" class="AMoptionScav" ${(AM.scav) ? 'checked' : ''}></td></tr>

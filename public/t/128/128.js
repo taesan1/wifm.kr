@@ -47,7 +47,7 @@ let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     group: 0,
     delay: 30,
     loot: false,
-    lootversion: 'loot1',
+    lootversion: 'AMoptionLoot1',
     rec: true,
     recversion:'rec1',
     scav: false,
