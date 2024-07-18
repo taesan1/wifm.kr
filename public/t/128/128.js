@@ -112,7 +112,13 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
                 },Math.floor(Math.random() * 35000)+5100);
             };
             if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
-
+ if(t.mode=="태그"){  UI.ErrorMessage('태그가 진행됩니다 ',15000);
+     clearInterval(la);
+     setTimeout(function(){
+         window.location.href =
+             "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
+     },Math.floor(Math.random() * 35000)+5100);
+ };
             //시간 단축
             var time4 = document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
             if (time4) {
