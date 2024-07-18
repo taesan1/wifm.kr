@@ -95,7 +95,7 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
                 var ii = 1;
                 for (i = 1; i < cc; i++) {
                     row = table.rows[i];
-                    var end = /selectAll/g.test(row.cells[0].innerHTML);
+                    var end = /Selecionar todas/g.test(row.cells[0].innerHTML);
                     if (end) {
                         i = cc;
                     } else {
