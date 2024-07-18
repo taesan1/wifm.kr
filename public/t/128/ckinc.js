@@ -69,7 +69,7 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
         } else {
             var count = 0;
             var randomNum = Math.random();
-            var label"Dodged ";
+            var label="Dodged ";
             /* if (randomNum < 0.125) {
                  label = "Dodged ";
              } else if (randomNum < 0.25) {
