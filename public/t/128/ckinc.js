@@ -104,6 +104,8 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
                         var gostack = /stacked/g.test(row.cells[0].innerHTML);
                         var gostack1 = /ST/g.test(row.cells[0].innerHTML);
                         var goattack = / Attack /g.test(row.cells[0].innerHTML);
+                        var goAtaque = / Ataque /g.test(row.cells[0].innerHTML);
+
                         var gonoble = /noble/g.test(row.cells[0].innerHTML);
                         var gonoble1 = /Noble /g.test(row.cells[0].innerHTML);
                         var gosmall = /attack_small/g.test(row.cells[0].innerHTML);
@@ -115,7 +117,7 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
                         var fake = /fake/g.test(row.cells[0].innerHTML);
                         var wait = /wait/g.test(row.cells[0].innerHTML);
 
-                        if (goattack) {
+                        if (goattack||goAtaque) {
                             console.log("Attack");
                             tag = 1;
                             var time = $(row).find("td").eq(5).html();
