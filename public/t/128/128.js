@@ -112,7 +112,7 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
                 },Math.floor(Math.random() * 35000)+5100);
             };
             if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
- if(t.mode=="태그"){  UI.ErrorMessage('태그가 진행됩니다 ',15000);
+ if(t.mode=="태그"){UI.ErrorMessage('태그가 진행됩니다 ',15000);
      clearInterval(la);
      setTimeout(function(){
          window.location.href =
@@ -204,7 +204,7 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
                 }}
 
             //스캐빈징
-            if(am.scav===true) {
+            if(am.scav===true&&!t.mode=="태그") {
                 console.log("스캐빈징확인");
                 var nn = localStorage.getItem('nn') || 0;
                 nn++;
