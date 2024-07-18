@@ -112,13 +112,7 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
                 },Math.floor(Math.random() * 35000)+5100);
             };
             if(t.inc<ia){localStorage.setItem("ia_"+t.pid ,t.inc)};
- if(t.mode=="태그"){UI.ErrorMessage('태그가 진행됩니다 ',15000);
-     clearInterval(la);
-     setTimeout(function(){
-         window.location.href =
-             "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
-     },Math.floor(Math.random() * 35000)+5100);
- };
+
             //시간 단축
             var time4 = document.querySelector("#overview_buildqueue > tbody > tr:nth-child(1) > td:nth-child(2) > span");
             if (time4) {
@@ -204,7 +198,7 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
                 }}
 
             //스캐빈징
-            if(am.scav===true&&!t.mode=="태그") {
+            if(am.scav===true) {
                 console.log("스캐빈징확인");
                 var nn = localStorage.getItem('nn') || 0;
                 nn++;
@@ -218,8 +212,15 @@ if((document.URL.match(page)||document.URL.match(page1)||document.URL.match(page
 
                 }else {
                     UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..<br>스캐빈징실행까지 ' + nnnn + '번 남았습니다', 3000);}
-            }else{UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..', 3000);}}
-
+            }else{
+                if(t.mode=="태그"){UI.ErrorMessage('태그가 진행됩니다 ',15000);
+                    clearInterval(la);
+                    setTimeout(function(){
+                        window.location.href =
+                            "https://"+t.world+".tribalwars.com.br/game.php?village="+t.pid+"&screen=overview_villages&mode=incomings&subtype=attacks&group=0";
+                    },Math.floor(Math.random() * 35000)+5100);
+                };
+                UI.InfoMessage('모니터링.. <br> 현재 mode: ' + t.mode + ' 현재 상태: ' + t.now + '<br>' + count + '번 새로고침 되었습니다..', 3000);}}
     }
 }
 
