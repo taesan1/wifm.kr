@@ -223,8 +223,8 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
 
     function tagging() {
         var incoming = parseInt(document.getElementById('incomings_amount').innerText);UI.InfoMessage('필터 교체중 ', 1000);
-        if (document.querySelector("#paged_view_content > div.overview_filters > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=text]").value != "Ataque " && incoming > parseInt(document.querySelector("#incomings_table > tbody > tr:nth-child(1) > th:nth-child(1)").innerText.split("\(")[1])) {
-            document.querySelector("#paged_view_content > div.overview_filters > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=text]").value = "Ataque ";
+        if (document.querySelector("#paged_view_content > div.overview_filters > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=text]").value != "Ataque" && incoming > parseInt(document.querySelector("#incomings_table > tbody > tr:nth-child(1) > th:nth-child(1)").innerText.split("\(")[1])) {
+            document.querySelector("#paged_view_content > div.overview_filters > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=text]").value = "Ataque";
             document.forms[0].submit();
         } else {
             localStorage.now = "대기";UI.InfoMessage('태깅..', 1000);
