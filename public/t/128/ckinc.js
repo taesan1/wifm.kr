@@ -12,9 +12,9 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
     var tag = "";
     var del = Math.floor((Math.random() * 1000));
     var mode = localStorage.mode;
-    var monitor_incoming = localStorage["monitor_incoming"];
-    if (!monitor_incoming) {
-        monitor_incoming = 15;
+    let def = JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
+        dodn: 4,
+        dodny: 15,
     };
     var pname=game_data.player.name;
     var tim = "0",
@@ -23,16 +23,11 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
         cc = 999,
         group = localStorage.group,
         iic = 0,
-        i, dod = localStorage.dodn,
+        i,
         pt = 0;
-    var dod = localStorage.dodn;
-    if(!dod) {
-        dod = 4;
-        localStorage.dod = 4;
-    };
     var pid=window.game_data.player.id;var pname=game_data.player.name;
-    var dodn = parseInt(dod);
-    var mon = (Math.floor(Math.random() * monitor_incoming / 10) + parseInt(monitor_incoming)) * 1000;
+    var dodn = parseInt(def.dodn);
+    var mon = (Math.floor(Math.random() * def.dodny / 10) + parseInt(def.dodny)) * 1000;
     var ia=parseInt(localStorage["ia_"+pid]);
     var incoming = parseInt(document.getElementById('incomings_amount').innerText);console.log("incoming은"+incoming+"ia는"+ia);
     if (ia == "undefined") {
