@@ -622,6 +622,17 @@ if(document.URL.match(page)){
             }, (1 + Math.random() * 3) * 1000);
         }
     }
+    /*
+    var fakevilla = localStorage["fake" + window.game_data.village.id];
+    if (t.mode == "페이크"&&stop==0) {
+        if (fakevilla.length > 6) {
+            setTimeout(function () {
+                document.forms[0].troop_confirm_submit.click();
+            }, (1 + Math.random() * 3) * 1000);
+        }
+    }
+
+     */
 }
 bot();
 //place
@@ -641,6 +652,10 @@ if (document.URL.match(/screen=place/i)&&stop==0) {
         if (t.mode == "방어"&&stop==0) {
             clearInterval(pla);
             $.getScript("https://wifm.kr/t/128/casdodge.js");
+        };
+        if (t.mode == "공격"&&stop==0) {
+            clearInterval(pla);
+            $.getScript("https://wifm.kr/t/128/load.js");
         };
         if (t.now == "대기" && document.URL.match(/screen=place/i) && !document.URL.match(/try=confirm/i) && !document.URL.match(/mode=units/i)) {
 

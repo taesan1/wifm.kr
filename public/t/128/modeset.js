@@ -23,14 +23,9 @@ $(document).ready(function() {
 
         };
         var ATT= JSON.parse(localStorage.getItem('MODE_ATT_options')) || {
-            optionGroup: 0,
-            optionDelay: 30,
-            optionLoot: true,
-            optionLoot1: true,
-            optionLoot2: false,
-            optionREC: true,
-            optionScav: true,
-            optionMint: true
+            group: 0,
+            delay: 30,
+            type: 'fake'
         };
 
         let html = `
@@ -110,22 +105,21 @@ $(document).ready(function() {
 
 <div id="공격모드" class="atab-content" style="border-top: 0.2px solid #7D510F; border-bottom: none; border-left: none; border-right: none; border-collapse: separate !important; border-spacing: 0px !important;">
     <table class="vis" style="width:100%;text-align:left;font-size:11px;">
-   <tr><h1  style="margin-left:3px; font-size:14px;"><br> 공격 설정(아직 수정중 이용금지) </h1></tr>
-    <tr><td>그룹</td><td><input type="text" size="5" class="ATToptionGroup" value="${ATT.optionGroup}"></td></tr>
-      <tr><td>빌리지 당 발사 횟수</td><td><input type="text" size="5" class="ATToptionDelay" value="${ATT.optionDelay}"></td></tr>
-      <tr><td>지연 시간</td><td><input type="checkbox" class="ATToptionLoot" ${(ATT.optionLoot) ? 'checked' : ''}></td></tr>
-      <tr>
-        <td>공격 유형 변경</td>
-        <td>
-          <input type="radio" name="optionLootVersion" class="ATToptionLoot1" value="optionLoot1" ${(ATT.optionLoot1) ? 'checked' : ''}>페이크
-          <input type="radio" name="optionLootVersion" class="ATToptionLoot2" value="optionLoot2" ${(ATT.optionLoot2) ? 'checked' : ''}>팽모드
-        </td>
-      </tr>
-      <tr><td>정찰병 유무</td><td><input type="checkbox" class="ATToptionREC" ${(ATT.optionREC) ? 'checked' : ''}></td></tr>
-      <tr><td>페이크</td><td><input type="checkbox" class="ATToptionScav" ${(ATT.optionScav) ? 'checked' : ''}></td></tr>
-      <tr><td>공격</td><td><input type="checkbox" class="ATToptionMint" ${(ATT.optionMint) ? 'checked' : ''}></td></tr>
-    </table><br><input type="button" class="btn ATToptionButton" value="저장"></div>
-    </div>
+        <tr><h1  style="margin-left:3px; font-size:14px;"><br> 공격 설정(아직 수정중 이용금지) </h1></tr>
+        <tr><td>그룹</td><td><input type="text" size="5" class="ATToptionGroup" value="${ATT.group}"></td></tr>
+        <tr><td>지연 시간</td><td><input type="text" size="5" class="ATToptionDelay" value="${ATT.delay}"></td></tr>
+        <tr>
+            <td>공격 타입</td>
+            <td>
+                <input type="radio" name="type" class="ATTtype1" value="ATTtype1" ${(ATT.type1) ? 'checked' : ''}>페이크
+                <input type="radio" name="type" class="ATTtype2" value="ATTtype2" ${(ATT.type2) ? 'checked' : ''}>팽
+                <input type="radio" name="type" class="ATTtype3" value="ATTtype3" ${(ATT.type3) ? 'checked' : ''}>뉴크
+                <input type="radio" name="type" class="ATTtype4" value="ATTtype4" ${(ATT.type4) ? 'checked' : ''}>노블
+
+            </td>
+        </tr>
+    </table><br><input type="button" class="btn ATTplan" value="공격 디테일"><input type="button" class="btn ATToptionButton" value="저장">
+</div>
     `;
 
         Dialog.show("모드설정",html);
@@ -186,16 +180,18 @@ $(document).ready(function() {
             localStorage.setItem('MODE_DEF_options', JSON.stringify(updatedOptions));
             UI.InfoMessage('저장되었습니다.. ', 3000);
         });
+        $('.ATTplan').click(function() {
+            $.getScript('https://wifm.kr/t/starting/attplan.js');
+        });
+
         $('.ATToptionButton').click(function() {
             let updatedOptions = {
                 optionGroup: $('.ATToptionGroup').val(),
                 optionDelay: $('.ATToptionDelay').val(),
-                optionREC: $('.ATToptionREC').is(':checked'),
-                optionLoot: $('.ATToptionLoot').is(':checked'),
-                optionLoot1: $('.ATToptionLoot1').is(':checked'),
-                optionLoot2: $('.ATToptionLoot2').is(':checked'),
-                optionScav: $('.ATToptionScav').is(':checked'),
-                optionMint: $('.ATToptionMint').is(':checked')
+                type: $('.ATTtype1').is(':checked') ? 'type1' :
+                    $('.ATTtype2').is(':checked') ? 'type2' :
+                        $('.ATTtype3').is(':checked') ? 'type3' :
+                            $('.ATTtype4').is(':checked') ? 'type4' : ''
             };
             localStorage.setItem('MODE_ATT_options', JSON.stringify(updatedOptions));
             UI.InfoMessage('저장되었습니다.. ', 3000);
