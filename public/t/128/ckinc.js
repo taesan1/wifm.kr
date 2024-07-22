@@ -101,8 +101,10 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
                         var goattack = / Attack /g.test(row.cells[0].innerHTML);
                         var goAtaque = / Ataque /g.test(row.cells[0].innerHTML);
 
-                        var gonoble = /noble/g.test(row.cells[0].innerHTML);
-                        var gonoble1 = /Noble /g.test(row.cells[0].innerHTML);
+                        var gonoble = /nobre/g.test(row.cells[0].innerHTML);
+                        var gonoble1 = /Nobre /g.test(row.cells[0].innerHTML);
+                        var gonoble2 = /noble/g.test(row.cells[0].innerHTML);
+                        var gonoble3 = /Noble/g.test(row.cells[0].innerHTML);
                         var gosmall = /attack_small/g.test(row.cells[0].innerHTML);
                         var gomedium = /attack_medium/g.test(row.cells[0].innerHTML);
                         var golarge = /attack_large/g.test(row.cells[0].innerHTML);
@@ -146,7 +148,7 @@ if (document.URL.match(/screen=overview_villages&mode=incomings&subtype=attacks&
                         ii = i + 1;
 
                         //노블  "Noble" 또는 "noble " 에 해당하고  "wait" / "done" / "완" / "sniped" / "ST" / "Stacked"에 전부해당하지 않아야돼
-                        if ((gonoble||gonoble1)&&!done&&!done1&&!gosniped&&!wait&&!gostack1&&!gostack&&!gosmall){
+                        if ((gonoble||gonoble1||gonoble2||gonoble3)&&!done&&!done1&&!gosniped&&!wait&&!gostack1&&!gostack&&!gosmall){
                             var landTime0 = row.cells[5].innerHTML.trim();
                             var landTime1 = landTime0.split("<")[0];
                             landTime1 = landTime1.substring(0, landTime1.length - 1);
