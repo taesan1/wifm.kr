@@ -28,7 +28,7 @@ var setArrivalHtml =
 
         function setArrivalTime(mmm, sss) {
             var arrivalTime;
-            var ssss= sss - Timing.offset_to_server
+            var ssss= sss - Timing.offset_to_server +20
             arrInterval = setInterval(function () {
                 arrivalTime = document.getElementsByClassName("relative_time")[0].textContent;
                 if (arrivalTime.slice(-8) >= mmm) {
