@@ -46,7 +46,9 @@ var setArrivalHtml =
 }
         function setArrivalTime(mmm, sss) {
             var arrivalTime;
-            var ssss= sss - Timing.offset_to_server +20
+            var result = 233 - Timing.offset_to_server + 10;
+            var ssss = result > 0 ? parseInt(result) : 0;
+
             arrInterval = setInterval(function () {
                 arrivalTime = document.getElementsByClassName("relative_time")[0].textContent;
                 if (arrivalTime.slice(-8) >= mmm) {
@@ -56,7 +58,7 @@ var setArrivalHtml =
                     }, ssss);
                     clearInterval(arrInterval);
                 }
-            }, 1);
+            }, 10);
         };
         setArrivalTime(inputTime, inputMs);
 
