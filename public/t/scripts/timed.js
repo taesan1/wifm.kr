@@ -1,4 +1,4 @@
- var setArrivalHtml =
+var setArrivalHtml =
             `<tr>
         <td>
             설정된 도착시간:
@@ -8,7 +8,7 @@
     </tr>`;
 
         var parentTable = document.getElementById("date_arrival").parentNode.parentNode;
-        parentTable.insertAdjacentHTML("beforeend", setArrivalHtml);
+        parentTable.insertAdjacentHTML("beforeend",setArrivalHtml);
 
 
         var element = document.querySelector("#command-data-form > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > span > a:nth-child(1)");
@@ -28,13 +28,13 @@
 
         function setArrivalTime(mmm, sss) {
             var arrivalTime;
-
+            var ssss= sss - Timing.offset_to_server
             arrInterval = setInterval(function () {
                 arrivalTime = document.getElementsByClassName("relative_time")[0].textContent;
                 if (arrivalTime.slice(-8) >= mmm) {
                     setTimeout(function () {
                         document.getElementById("troop_confirm_submit").click();
-                    }, sss);
+                    }, ssss);
                     clearInterval(arrInterval);
                 }
             }, 1);
