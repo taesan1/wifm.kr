@@ -31,14 +31,12 @@ if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
     var timeStr = sendAt1.split(" ")[0];
     var sendAt3 = `${formattedDate} ${timeStr}`;
     console.log(sendAt3);
-    var sendAt= sendAt3+"."+sendAt2;   console.log(sendAt);
+    var sendAt= sendAt3+"."+sendAt2;
+    console.log(sendAt);    localStorage.setItem("sendAt_"+window.game_data.village.id,sendAt);
     // 입력받은 시간을 UTC 형식으로 변환
     let sendAtString = sendAt;
     sendAt += 'Z';
     sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
-    localStorage.setItem("sendAt_"+window.game_data.village.id,sendAtString);
-    console.log(sendAt); // 변환된 보내는 시간 출력
-
     let millis = sendAt - now; // 현재 시간과 보내는 시간의 차이 계산
     console.log('Will be sent in (minutes): ' + (millis / 1000 / 60)); // 차이를 분 단위로 출력
     baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
@@ -52,19 +50,25 @@ if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
 if(!aaa){main()}else{
     baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
     if (baseInterval) {
-
-        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + aaa + ' </h3><a id="workingIndicator"></a>'
+        var sendAt = localStorage.getItem("sendAt_"+window.game_data.village.id);
+        let sendAtString = sendAt;
+        sendAt += 'Z';
+        sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
+        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + sendAtString + ' </h3><a id="workingIndicator"></a>'
         button()
     }
 }
 
 function timeBase() {
+
     var sendAt = localStorage.getItem("sendAt_"+window.game_data.village.id);
-    sendAt = new Date(sendAt)- Timing.offset_to_server - (offset / 2);
+    let sendAtString = sendAt;
+    sendAt += 'Z';
+    sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
     // 현재 시간을 가져옵니다.
     let now = getNow(); console.log("now :"+now);
     // 보내기 시간과 현재 시간의 차이를 계산합니다.
-    let diff = sendAt - now;  console.log("diff :"+diff);
+    let diff = sendAt - now.getTime();  console.log("diff :"+diff);
     console.log("시간이 계산됩니다");
     // 차이가 6000 이하이면 (약 1분)
     if (diff <= 3000) {
@@ -101,10 +105,8 @@ function timeAccurate() {
     // 현재 시간을 가져옵니다.
     let now = getNow();
     var sendAt = localStorage.getItem("sendAt_"+window.game_data.village.id);
-    sendAt = new Date(sendAt)- Timing.offset_to_server - (offset / 2);
-    console.log("sendat 확인 :"+sendAt);
     // 보내기 시간과 현재 시간의 차이를 계산합니다.
-    let diff = sendAt - now;
+    let diff = sendAt - now.getTime();
 
     // 차이가 0 이하이면 (보내기 시간이 지났으면)
     if (diff <= 0) {
@@ -119,7 +121,6 @@ function sendMovement() {
     // 'troop_confirm_go' 버튼을 클릭합니다.
     console.log("클릭");
     document.forms[0].troop_confirm_submit.click();
-    localStorage.removeItem("sendAt_"+window.game_data.village.id);
 }
 
 function getNow() {
@@ -136,3 +137,6 @@ deleteButton.addEventListener("click", function() {
 });
 var h2Element = document.getElementsByTagName("h2")[0];
 h2Element.appendChild(deleteButton);}
+
+
+
