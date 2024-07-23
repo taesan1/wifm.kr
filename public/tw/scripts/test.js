@@ -4,9 +4,20 @@ var baseInterval; // 기본 인터벌 타이머 변수
 var precInterval; // 정밀 인터벌 타이머 변수
 var utc_diff = server_utc_diff * 1000; // 서버와의 시간 차이를 밀리초 단위로 저장
 var counter = -1; // 카운터 변수 초기화
-var offset = 20; // 보내는 시간에 대한 오프셋 변수
+var offset = 2000; // 보내는 시간에 대한 오프셋 변수
 var aaa = localStorage.getItem("sendAt_"+window.game_data.village.id);
 
+if(!aaa){main()}else{
+    baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
+    if (baseInterval) {
+        var sendAt = localStorage.getItem("sendAt_"+window.game_data.village.id);
+        let sendAtString = sendAt;
+        sendAt += 'Z';
+        sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
+        document.getElementsByTagName("h2")[0].innerHTML = '<h3>출발시간 ' + sendAtString + ' <a id="workingIndicator"></a></h3>'
+        button()
+    }
+}
 function main() { // 메인 함수
     let now = getNow(); // 현재 시간 가져오기
     console.log(now); // 현재 시간 출력
@@ -22,7 +33,6 @@ function main() { // 메인 함수
 if (sendAt1 == null || sendAt1.length < 7) {sendAt1=ttt}
 if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
     localStorage.setItem("sss_"+ window.game_data.village.id,sendAt2);
-
     var dateStr = sendAt1.split(" ")[1];
     var year = dateStr.split("/")[2];
     var month = dateStr.split("/")[1];
@@ -48,17 +58,6 @@ if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
     }
 }
 
-if(!aaa){main()}else{
-    baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
-    if (baseInterval) {
-        var sendAt = localStorage.getItem("sendAt_"+window.game_data.village.id);
-        let sendAtString = sendAt;
-        sendAt += 'Z';
-        sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
-        document.getElementsByTagName("h2")[0].innerHTML = '<h3>출발시간 ' + sendAtString + ' <a id="workingIndicator"></a></h3>'
-        button()
-    }
-}
 
 function timeBase() {
 
@@ -121,6 +120,7 @@ function sendMovement() {
     // 'troop_confirm_go' 버튼을 클릭합니다.
     console.log("클릭");
     document.forms[0].troop_confirm_submit.click();
+    localStorage.removeItem("sendAt_"+window.game_data.village.id);
 }
 
 function getNow() {
