@@ -46,7 +46,7 @@ var setArrivalHtml =
 }
         function setArrivalTime(mmm, sss) {
             var arrivalTime;
-            var result = 233 - Timing.offset_to_server + 10;
+            var result = sss - Timing.offset_to_server + 10;
             var ssss = result > 0 ? parseInt(result) : 0;
 
             arrInterval = setInterval(function () {
