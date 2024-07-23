@@ -43,7 +43,7 @@ if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
     baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
 
     if (baseInterval) { // 인터벌 타이머가 실행되었다면
-        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + sendAtString + ' </h3><a id="workingIndicator"></a>'
+        document.getElementsByTagName("h2")[0].innerHTML = '<h3>출발시간 ' + sendAtString + ' </h3><a id="workingIndicator"></a>'
         button()
     }
 }
@@ -55,7 +55,7 @@ if(!aaa){main()}else{
         let sendAtString = sendAt;
         sendAt += 'Z';
         sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
-        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + sendAtString + ' </h3><a id="workingIndicator"></a>'
+        document.getElementsByTagName("h2")[0].innerHTML = '<h3>출발시간 ' + sendAtString + ' <a id="workingIndicator"></a></h3>'
         button()
     }
 }
@@ -75,7 +75,7 @@ function timeBase() {
     if (diff <= 5000) {
         // 고정밀 모드로 전환합니다.
         clearInterval(baseInterval);
-        document.getElementById('workingIndicator').innerHTML = 'High precision mode active.';
+        document.getElementById('workingIndicator').innerHTML = '공격 시작..';
         precInterval = setInterval(timeAccurate, 1);
         return;
     }
@@ -85,15 +85,15 @@ function timeBase() {
         // 카운터가 0이면
         if (counter == 0) {
             // '.'을 표시합니다.
-            document.getElementById('workingIndicator').innerHTML = '.';
+            document.getElementById('workingIndicator').innerHTML = ' 남은시간 '+ parseInt(diff/1000)+'초.';
             // 카운터가 1이면
         } else if (counter == 1) {
             // '..'을 표시합니다.
-            document.getElementById('workingIndicator').innerHTML = '..';
+            document.getElementById('workingIndicator').innerHTML = ' 남은시간 '+ parseInt(diff/1000)+'초..';
             // 카운터가 2 이상이면
         } else if (counter >= 2) {
             // '...'을 표시하고 카운터를 -1로 초기화합니다.
-            document.getElementById('workingIndicator').innerHTML = '...';
+            document.getElementById('workingIndicator').innerHTML = ' 남은시간 '+ parseInt(diff/1000)+'초...';
             counter = -1;
         }
         // 카운터를 증가시킵니다.
