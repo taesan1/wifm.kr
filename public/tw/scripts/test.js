@@ -4,7 +4,7 @@ var baseInterval; // 기본 인터벌 타이머 변수
 var precInterval; // 정밀 인터벌 타이머 변수
 var utc_diff = server_utc_diff * 1000; // 서버와의 시간 차이를 밀리초 단위로 저장
 var counter = -1; // 카운터 변수 초기화
-var offset = 2000; // 보내는 시간에 대한 오프셋 변수
+var offset = 1000; // 보내는 시간에 대한 오프셋 변수
 var aaa = localStorage.getItem("sendAt_"+window.game_data.village.id);
 
 if(!aaa){main()}else{
