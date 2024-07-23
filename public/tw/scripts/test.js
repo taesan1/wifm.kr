@@ -36,7 +36,7 @@ if (sendAt2 == null || sendAt2.length > 3){sendAt2= 000;}
     let sendAtString = sendAt;
     sendAt += 'Z';
     sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
-    localStorage.setItem("sendAt_"+window.game_data.village.id,sendAt);
+    localStorage.setItem("sendAt_"+window.game_data.village.id,sendAtString);
     console.log(sendAt); // 변환된 보내는 시간 출력
 
     let millis = sendAt - now; // 현재 시간과 보내는 시간의 차이 계산
