@@ -1,0 +1,1190 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<head>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 2em;
+        }
+
+        hr {
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+        }
+
+        #left-panel {
+            width: 200px;
+            margin: 0;
+            float: left;
+            /* background-color: #eeffee; */
+            border-right: 1px solid rgba(0,0,0,0.15);
+        }
+
+        #right-panel {
+            margin: 0;
+            margin-left: 50px;
+            /* background-color: #ffeeee; */
+            padding: 1em;
+            display: inline-block;
+            width: calc(80% - 200px);
+        }
+
+        #incomings-list {
+            margin: 0;
+            padding: 1em;
+        }
+
+        #incomings-list li {
+            list-style: none;
+            padding: 1em 0;
+        }
+
+        #options-display input[type=number] {
+            width: 5em;
+        }
+
+        .button {
+            cursor: pointer;
+        }
+
+        .add-snipe-button, .remove-snipe-button {
+            border: 1px solid black;
+            border-radius: 999em;
+            padding: 0 0.25em;
+        }
+
+        .remove-snipe-button {
+            display: none;
+        }
+
+        .selected .add-snipe-button {
+            display: none;
+        }
+
+        .selected .remove-snipe-button {
+            display: block;
+        }
+
+        .selected-tab {
+            text-decoration: underline;
+        }
+
+        input[type=submit] {
+            margin-top: 1.5em;
+        }
+
+        .timings-table td, .timings-table th {
+            padding: 0.25em 1em;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .expired {
+            color: #aaa;
+        }
+
+        .primary-time {
+            font-weight: bold;
+        }
+
+        .timings-table {
+            text-align: center;
+        }
+
+        .snipe-overview-plan > table {
+            text-align: center;
+        }
+
+        .snipe-overview-plan > table td {
+            padding: 0.25em 0.5em;
+        }
+    </style>
+</head>
+
+
+
+
+
+<body>
+
+<div id="left-panel">
+    <ul id="incomings-list">
+        <li id="server-time-display" />
+        <li id="snipe-plan" class="button">
+            <span>Snipe plan</span>
+            <br>
+            <span id="snipe-plan-summary"></span>
+        </li>
+        <li id="options-item" class="button">
+            <span>Options</span>
+        </li>
+    </ul>
+</div>
+
+<div id="right-panel">
+    <div id="options-display" style="display:none">
+        <form>
+            <table>
+                <tr>
+                    <td><label for="preferred-window-seconds">Minimum cancel window</label></td>
+                    <td><input type="number" id="preferred-window-seconds"></td>
+                    <td><span>seconds</span></td>
+                </tr>
+                <tr>
+                    <td><label for="time-spacing">Snipe spacing</label></td>
+                    <td><input type="number" id="time-spacing"></td>
+                    <td><span>seconds</span></td>
+                </tr>
+            </table>
+
+            <input type="submit" id="submit-options">
+        </form>
+    </div>
+    <div id="snipes-overview">
+        Loading...
+    </div>
+</div>
+
+</body>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
+
+
+
+
+
+<!-- Templates -->
+<script type="text/template" id="tpl-incoming-list-entry">
+    <li class="inc-entry button" data-inc-id="<%= incId %>">
+        <span class="village-name"><%= target.villageName %></span>
+        <br>
+        <span class="arrival-time time-duration" data-target-time="<%= arrival.valueOf() %>" />
+    </li>
+</script>
+
+<script type="text/template" id="tpl-incoming-overview">
+    <div data-inc-id="<%= data.incId %>" class="snipe-option-plan">
+        <table>
+            <tr>
+                <td>Target</td>
+                <td>
+                    <a href="<%= makeRallyPointUrl(data) %>" target="_blank">
+                        <%= data.target.playerName || "- No Player -" %>
+                        <br>
+                        <%= data.target.villageName %>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>Landing Time</td>
+                <td>
+                    <%= formatDateTime(data.arrival) %>
+                </td>
+            </tr>
+            <tr>
+                <td>Time Remaining</td>
+                <td class="time-duration" data-target-time="<%= data.arrival.valueOf() %>">
+                    <%= formatDurationMs(data.arrival.valueOf() - getServerTime().valueOf(), false) %>
+                </td>
+            </tr>
+        </table>
+
+        <a href="" class="delete-inc">Delete</a>
+
+        <br><br><br>
+
+        <a href="" class="reset-inc">Reset</a>
+        <a href="" class="add-all-inc-plans">Add all</a>
+
+        <table class="timings-table">
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Remaining</th>
+                <th>Window</th>
+                <th>Launch Time</th>
+                <th>Cancel Time</th>
+            </tr>
+            <% makeSnipeTimings(data, getCurrentSettings()).forEach((timing) => { %>
+            <tr data-timing='<%= JSON.stringify(timing) %>' class="timing-option <%= indexOfObj(loadSavedPlansList(), timing) >= 0 ? 'selected' : '' %>">
+                <td><span class="button add-snipe-button">+</span></td>
+                <td><span class="button remove-snipe-button">-</span></td>
+                <td class="time-duration" data-target-time="<%= timing.launchAt.valueOf() %>"></td>
+                <td><%= formatDurationMs((timing.cancelAt.valueOf() - timing.launchAt.valueOf()) * 2, false) %></td>
+                <td><%= formatDateTime(timing.launchAt) %></td>
+                <td><%= formatDateTime(timing.cancelAt, false) %></td>
+            </tr>
+            <% }) %>
+        </table>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-snipe-plan">
+    <div class="snipe-overview-plan">
+
+        <% var pendingSnipes = _.sortBy(plans, (p) => snipeGetActionTime(p)).filter((p) => snipeGetActionTime(p) > getServerTime().valueOf()) %>
+
+        <h2>Cancel snipes</h2>
+
+        <% if (!pendingSnipes.length) { %>
+
+        <p>
+            No snipes have been added to the plan, select an incoming on the left pane and click the "+" buttons to add to the plan.
+        </p>
+
+        <% } else { %>
+
+        <a href="" class="remove-all-plans">Remove all</a>
+
+        <table>
+            <tr>
+                <th></th>
+                <th>Village/Link</th>
+                <th>Countdown</th>
+                <th>Action</th>
+                <th>Send Time</th>
+                <th>Cancel Time</th>
+                <th></th>
+            </tr>
+
+            <% pendingSnipes.forEach((plan) => { %>
+
+            <tr data-plan='<%= JSON.stringify(plan) %>'>
+                <td>
+                    <a href="#" class="mark-success">Success</a>
+                </td>
+                <td>
+                    <a href="<%= plan.rallyPointUrl %>" target="_blank">
+                        <%= plan.villageName %>
+                    </a>
+                </td>
+                <td>
+                    <span class="time-duration" data-target-time="<%= snipeGetActionTime(plan).valueOf() %>" />
+                </td>
+                <td>
+                                <span>
+                                    <% if (snipeGetActionTime(plan).valueOf() == plan.cancelAt.valueOf()) { %>
+                                        Cancel
+                                    <% } else { %>
+                                        Send
+                                    <% } %>
+                                </span>
+                </td>
+
+                <% needsCancel = snipeGetActionTime(plan).valueOf() == plan.cancelAt.valueOf(); %>
+
+                <td>
+                                <span class="<%= needsCancel ? '' : 'primary-time' %>">
+                                    <%= formatDateTime(plan.launchAt) %>
+                                </span>
+                </td>
+                <td>
+                                <span class="<%= needsCancel ? 'primary-time' : '' %>">
+                                    <%= formatDateTime(plan.cancelAt, false) %>
+                                </span>
+                </td>
+                <td>
+                    <a href="#" class="delete-plan">X</a>
+                </td>
+            </tr>
+
+            <% }); %>
+        </table>
+
+        <% } %>
+
+        <% var expiredSnipes = _.sortBy(plans, (p) => snipeGetActionTime(p)).filter((p) => snipeGetActionTime(p) < getServerTime().valueOf()); %>
+
+        <% if (expiredSnipes.length) { %>
+
+        <hr>
+
+        <h2>Expired snipes</h2>
+
+        <a href="" class="remove-all-expired-plans">Remove all</a>
+
+        <table>
+            <tr>
+                <th>Village/Link</th>
+                <th>Countdown</th>
+                <th>Action</th>
+                <th>Send Time</th>
+                <th>Cancel Time</th>
+                <th></th>
+            </tr>
+
+            <% expiredSnipes.forEach((plan) => { %>
+
+            <tr data-plan='<%= JSON.stringify(plan) %>'>
+                <td>
+                    <a href="<%= plan.rallyPointUrl %>" target="_blank">
+                        <%= plan.villageName %>
+                    </a>
+                </td>
+                <td>
+                    <span class="time-duration" data-target-time="<%= snipeGetActionTime(plan).valueOf() %>" />
+                </td>
+                <td>
+                                <span>
+                                    <% if (snipeGetActionTime(plan).valueOf() == plan.cancelAt.valueOf()) { %>
+                                        Cancel
+                                    <% } else { %>
+                                        Send
+                                    <% } %>
+                                </span>
+                </td>
+
+                <td>
+                                <span>
+                                    <%= formatDateTime(plan.launchAt) %>
+                                </span>
+                </td>
+                <td>
+                                <span>
+                                    <%= formatDateTime(plan.cancelAt, false) %>
+                                </span>
+                </td>
+                <td>
+                    <a href="#" class="delete-plan">X</a>
+                </td>
+            </tr>
+
+            <% }); %>
+        </table>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-no-incomings-li">
+    <li class="no-incomings-notice">
+        No incomings have been added for sniping.
+        <br>
+        <br>
+        Run the Cancel Snipe script while on your
+        overview page or while viewing an incoming to add to this list.
+    </li>
+</script>
+
+
+
+
+
+
+
+<!-- Formatting helpers -->
+<script>
+    function formatDateTime(dateTime, showMs_) {
+        if (typeof showMs_ == 'undefined')
+            showMs_ = true;
+
+        if (typeof dateTime == 'string')
+            dateTime = new Date(Date.parse(dateTime));
+        if (typeof dateTime == 'number')
+            dateTime = new Date(dateTime);
+
+        var hr = dateTime.getHours().toString();
+        hr = '0'.repeat(2 - hr.length) + hr;
+        var min = dateTime.getMinutes().toString();
+        min = '0'.repeat(2 - min.length) + min;
+        var sec = dateTime.getSeconds().toString();
+        sec = '0'.repeat(2 - sec.length) + sec;
+        var ms = dateTime.getMilliseconds().toString();
+        ms = '0'.repeat(3 - ms.length) + ms;
+
+        var result = `${hr}:${min}:${sec}`;
+        if (showMs_)
+            result += `:${ms}`;
+
+        return result;
+    }
+
+    function formatDurationMs(ms, showMs_) {
+        //return formatDateTime(new Date(ms), showMs_);
+
+        if (typeof showMs_ == 'undefined')
+            showMs_ = true;
+
+        var isNegative = ms < 0;
+        //if (isNegative) ms = -ms;
+        if (isNegative) ms = 0;
+
+        var SECOND = 1000;
+        var MINUTE = 60 * 1000;
+        var HOUR = 60 * MINUTE;
+        var formatMs = ms % SECOND;
+        ms -= formatMs;
+        var formatSec = ms % MINUTE;
+        ms -= formatSec;
+        var formatMin = ms % HOUR;
+        ms -= formatMin;
+        var formatHour = ms;
+
+        formatSec /= SECOND;
+        formatMin /= MINUTE;
+        formatHour /= HOUR;
+
+        formatMs = formatMs.toString();
+        formatSec = formatSec.toString();
+        formatMin = formatMin.toString();
+        formatHour = formatHour.toString();
+
+        formatMs = '0'.repeat(3 - formatMs.length) + formatMs;
+        formatSec = '0'.repeat(2 - formatSec.length) + formatSec;
+        formatMin = '0'.repeat(2 - formatMin.length) + formatMin;
+
+        var result = `${formatHour}:${formatMin}:${formatSec}`;
+        if (showMs_)
+            result += `:${formatMs}`;
+
+        //if (isNegative)
+        //    result = '-' + result;
+
+        return result;
+    }
+</script>
+
+
+<!-- Utilities -->
+<script>
+    function objForEach(obj, callback) {
+        for (var prop in obj) {
+            if (!obj.hasOwnProperty(prop)) continue;
+            callback(obj[prop], prop, obj);
+        }
+    }
+
+    function indexOfObj(array, obj) {
+        var result = -1;
+        array.forEach((v, i) => {
+            if (JSON.stringify(v) == JSON.stringify(obj)) {
+                result = i;
+            }
+        });
+        return result;
+    }
+
+    function floorTo(val, step) {
+        return Math.floor(val / step) * step;
+    }
+
+    function setIntervalOnSecond(timeout, callback) {
+        setTimeout(() => {
+            setInterval(callback, timeout);
+            callback();
+            //  + 20 to make sure interval isn't called right before
+            //  the next second
+        }, 1000 - new Date().getMilliseconds() + 20);
+    }
+
+    function getCurrentSettings() {
+        return loadSettings();
+    }
+
+    function parseToken(href) {
+        var match = href.match(/[\?&]t=(\w+)/);
+        if (match) return match[1];
+        else return null;
+    }
+
+    function removeWhere(array, filter) {
+        var result = [];
+        array.forEach((v) => {
+            if (!filter(v))
+                result.push(v);
+        });
+
+        return result;
+    }
+</script>
+
+
+<!-- Data management -->
+<script>
+
+    window.config = (() => {
+        var query = window.location.search.substr(1).split('&');
+        var queryObj = {};
+        query.forEach((q) => {
+            var split = q.split('=')
+            queryObj[split[0]] = split[1];
+        });
+
+        if (!queryObj.server || !queryObj.offset) {
+            alert('Something went wrong when loading your data, re-run the script');
+            return null;
+        }
+
+        return {
+            serverName: queryObj.server,
+            serverTimeOffset: parseInt(queryObj.offset)
+        }
+    })();
+
+    initLocalStorage({
+        incomings: [],
+        plans: [],
+        serverTimeOffset: 0,
+        settings: {
+            minimumWindowSeconds: 3 * 60,
+            snipeSpacingSeconds: 60,
+            maxCancelTime: 10 * 60 * 1000 // 10 minutes in ms
+        }
+    });
+
+    //  Saves data to the relevant local storage slot for the current
+    //  tribal wars server
+    function saveLocalStorage(key, value) {
+        var container = getLocalStorageContainer();
+        if (!container) {
+            return;
+        }
+        container[key] = value;
+        localStorage.setItem(window.config.serverName, JSON.stringify(container));
+    }
+
+    function getLocalStorage(key, value, default_) {
+        var container = getLocalStorageContainer();
+        if (!container) {
+            return null;
+        }
+        if (container[key] == 'undefined' && typeof default_ != 'undefined') {
+            container[key] = default_;
+        }
+        return container[key];
+    }
+
+    function getLocalStorageContainer() {
+        if (!window.config || !window.config.serverName) {
+            return null;
+        }
+
+        var container = localStorage.getItem(window.config.serverName);
+        if (container) {
+            container = JSON.parse(container);
+        } else {
+            container = {};
+        }
+        return container;
+    }
+
+    function initLocalStorage(data) {
+        var container = getLocalStorageContainer();
+        if (!container) {
+            return;
+        }
+
+        objForEach(data, (val, prop) => {
+            if (typeof container[prop] == 'undefined')
+                container[prop] = val;
+        });
+
+        localStorage.setItem(window.config.serverName, JSON.stringify(container));
+    }
+
+
+
+    function loadSavedIncomingsList() {
+        var incs = getLocalStorage('incomings', []);
+        incs.forEach((inc) => {
+            inc.arrival = new Date(Date.parse(inc.arrival));
+        });
+        return incs;
+    }
+
+    function saveIncomingsList(incs) {
+        saveLocalStorage('incomings', incs);
+    }
+
+    function saveIncoming(inc) {
+        if (inc instanceof Array) {
+            inc.forEach((d) => saveIncoming(d))
+            return;
+        }
+
+        var incs = loadSavedIncomingsList();
+        incs = removeWhere(incs, (i) => i.incId == inc.incId);
+
+        incs.push(inc);
+        saveIncomingsList(incs);
+    }
+
+    function removeIncoming(inc) {
+        var incs = loadSavedIncomingsList();
+        var index = -1;
+        incs.forEach((d, i) => {
+            if (d.incId == inc.incId) index = i;
+        });
+
+        if (index >= 0) {
+            incs.splice(index, 1);
+            saveIncomingsList(incs);
+        }
+    }
+
+    function clearSavedIncomings() {
+        saveLocalStorage('incomings', []);
+    }
+
+    function loadSavedPlansList() {
+        return getLocalStorage('plans', []);
+    }
+
+    function savePlansList(plansList) {
+        saveLocalStorage('plans', plansList);
+    }
+
+    function savePlan(plan) {
+        var plans = getLocalStorage('plans', []);
+        plans.push(plan);
+        saveLocalStorage('plans', plans);
+    }
+
+    function removePlan(plan) {
+        if (plan instanceof Array) {
+            plan.forEach(removePlan);
+            return;
+        }
+
+        var plans = loadSavedPlansList();
+        var idx = plans.map((p) => JSON.stringify(p)).indexOf(JSON.stringify(plan));
+        if (idx >= 0) {
+            plans.splice(idx, 1);
+            savePlansList(plans);
+        }
+    }
+
+    function clearSavedPlans() {
+        saveLocalStorage('plans', []);
+    }
+
+    function loadSettings() {
+        return getLocalStorage('settings', {
+            minimumWindowSeconds: 3 * 60,
+            snipeSpacingSeconds: 60,
+            maxCancelTime: 10 * 60 * 1000 // 10 minutes in ms
+        })
+    }
+
+    function saveSettings(settings) {
+        saveLocalStorage('settings', settings);
+    }
+
+</script>
+
+
+
+<!-- Data polling -->
+<script>
+
+    function validateData(data) {
+        return (
+            !!data.incomings &&
+            !!data.settings
+        );
+    }
+
+    window._LAST_DATA = null;
+    function pollData() {
+        var container = getLocalStorageContainer();
+        //console.log('pollData, container = ', container);
+        if (_LAST_DATA) {
+            if (JSON.stringify(_LAST_DATA) != JSON.stringify(container) && validateData(container)) {
+                loadInterface();
+                _LAST_DATA = container;
+            }
+        } else {
+            _LAST_DATA = container;
+            if (container && validateData(container)) {
+                loadInterface();
+            }
+        }
+    }
+
+    window.addEventListener('message', (ev) => {
+        console.log('window.onMessage, data = ', ev.data);
+        var msg = ev.data;
+        switch (msg.type) {
+            case 'loadData':
+                var data = msg.data;
+
+                var newIncs = data.incomings;
+                if (newIncs)
+                    saveIncoming(newIncs);
+
+                pollData();
+                break;
+        }
+    });
+
+    //setInterval(pollData, 500);
+</script>
+
+<!-- Snipe logic -->
+<script>
+
+    function snipeGetActionTime(plan) {
+        var serverTime = new Date(getServerTime());
+        var sendTime = new Date(plan.launchAt);
+
+        if (serverTime.valueOf() < sendTime.valueOf()) {
+            return sendTime;
+        } else {
+            return new Date(plan.cancelAt);
+        }
+    }
+
+    function getServerTime() {
+        var serverDate = new Date(Date.now() + window.config.serverTimeOffset);
+        serverDate.setMilliseconds(0);
+        return serverDate;
+    }
+
+    function calculateTimeRemaining(inc) {
+        var serverTime = getServerTime();
+        var landingTime = inc.arrival;
+        return landingTime.valueOf() - serverTime.valueOf();
+    }
+
+    function makeSnipeTimings(inc, settings) {
+        var landingTime = inc.arrival;
+        var snipeSpacingMs = settings.snipeSpacingSeconds * 1000;
+        var remainingTime = floorTo(calculateTimeRemaining(inc), snipeSpacingMs);
+
+        var options = [];
+        for (var i = 1; i * snipeSpacingMs < remainingTime; i++) {
+            var window = i * snipeSpacingMs;
+            if (window / 2 >= settings.maxCancelTime)
+                continue;
+
+            var snipeLaunchTime = landingTime - window;
+            var cancelTime = snipeLaunchTime + window / 2;
+
+            options.push({
+                incId: inc.incId,
+                launchAt: new Date(snipeLaunchTime).valueOf(),
+                cancelAt: new Date(cancelTime).valueOf(),
+                selected: false,
+                arrival: landingTime.valueOf(),
+                villageName: inc.target.villageName,
+                rallyPointUrl: makeRallyPointUrl(inc)
+            });
+        }
+        options.reverse();
+        return options;
+    }
+
+    function makeRallyPointUrl(inc) {
+        var location = window.config.serverName;
+        var t = window.config.t;
+        return `https://${location}/game.php?screen=place&village=${inc.target.villageId}&t=${t ? t[1] : 0}`;
+    }
+
+</script>
+
+<!--  Test data -->
+<script>
+    var TEST = !!window.location.hash.match(/test/i);
+    if (TEST) {
+        setTimeout(() => {
+            saveLocalStorage('plans', []);
+            saveLocalStorage('incomings', [
+                {
+                    source: {
+                        playerName: "Source Player Test",
+                        playerId: 1000,
+                        villageName: "Source Village Test",
+                        villageId: 1100
+                    },
+                    target: {
+                        playerName: "Target Player Test",
+                        playerId: 2000,
+                        villageName: "Target Village Test",
+                        villageId: 2100
+                    },
+                    incId: 5000,
+                    arrival: new Date(Date.now() + 60000*15)
+                }
+            ]);
+
+            saveLocalStorage('settings', {
+                minimumWindowSeconds: 3 * 60,
+                snipeSpacingSeconds: 60,
+                maxCancelTime: 10 * 60 * 1000 // 10 minutes in ms
+            });
+
+        }, 1500);
+    }
+</script>
+
+<!-- Interface -->
+<script>
+
+    function pickRemainingColor(timeRemaining) {
+        let scheme = [
+            { threshold: 15, color: '#f00' },
+            { threshold: 30, color: '#c00' },
+            { threshold: 60, color: '#900' }
+        ];
+
+        timeRemaining /= 1000;
+
+        if (timeRemaining <= 0) {
+            return '#aaa';
+        }
+
+        for (var i = 0; i < scheme.length; i++) {
+            if (timeRemaining <= scheme[i].threshold)
+                return scheme[i].color;
+        }
+
+        return '';
+    }
+
+    function updateRemainingTime($el, serverTime) {
+        $el = $($el);
+        var targetTime = parseInt($el.data('target-time'));
+        var remainingTime = targetTime - serverTime.valueOf();
+        remainingTime += 1000 - (remainingTime % 1000);
+        $el.text(formatDurationMs(remainingTime, false));
+        $el.css('color', pickRemainingColor(remainingTime));
+    }
+
+    //  Auto-update time counters
+    function updateTimeCounters() {
+        var container = getLocalStorageContainer();
+        if (!container)
+            return;
+
+        var serverTime = getServerTime();
+
+        $('.time-duration').each((i, el) => {
+            updateRemainingTime(el, serverTime);
+        });
+
+        $('#server-time-display').text(
+            `Server time: ${formatDateTime(serverTime, false)}`
+        );
+    }
+
+    setIntervalOnSecond(1000, updateTimeCounters);
+</script>
+
+<!-- Page management -->
+<script>
+    window.CURRENT_PAGE = {
+        type: null,
+        selection: null
+    };
+
+    var listEntryTemplate = _.template($('#tpl-incoming-list-entry').html());
+    var planOverviewTemplate = _.template($('#tpl-incoming-overview').html(), { variable: 'data' });
+    var allPlanOverviewTemplate = _.template($('#tpl-snipe-plan').html());
+    var noIncomingsLiTemplate = _.template($('#tpl-no-incomings-li').html());
+
+    function setDisplayPage(pageType, incObj) {
+        if (pageType) {
+            CURRENT_PAGE.type = pageType;
+            CURRENT_PAGE.selection = incObj;
+        }
+
+        $('#right-panel > div').hide();
+        $('.selected-tab').removeClass('selected-tab');
+
+        switch (CURRENT_PAGE.type) {
+            case PAGES.OPTIONS:
+                $('#options-display').show();
+                $('#options-item').addClass('selected-tab');
+                break;
+
+            case PAGES.SNIPE_PLAN:
+                initSnipePlanPage();
+                $('#snipes-overview').show();
+                $('#snipe-plan').addClass('selected-tab');
+                break;
+
+            case PAGES.INCOMING_OVERVIEW:
+                $('.snipe-option-plan').remove();
+                var $view = $(planOverviewTemplate(CURRENT_PAGE.selection));
+                $('#right-panel').append($view);
+
+                $view.find('.add-snipe-button').click((ev) => {
+                    var data = $(ev.target).closest('tr').data('timing');
+                    savePlan(data);
+                    loadInterface();
+
+                    $(ev.target).closest('tr').addClass('selected');
+                });
+
+                $view.find('.remove-snipe-button').click((ev) => {
+                    var data = $(ev.target).closest('tr').data('timing');
+                    removePlan(data);
+                    loadInterface();
+
+                    //$(ev.target).closest('tr').removeClass('selected');
+                });
+
+                $view.find('.delete-inc').click((ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    if (!confirm('The selected incoming and its plans will be deleted.')) {
+                        return false;
+                    }
+
+                    var incomings = loadSavedIncomingsList();
+                    var incId = $(ev.target).closest('.snipe-option-plan').data('inc-id');
+                    var incIdx = incomings.map((inc) => inc.incId).indexOf(parseInt(incId));
+                    var inc = incomings[incIdx];
+                    removeIncoming(inc);
+
+                    var updatedPlans = loadSavedPlansList().filter((p) => p.incId != incId);
+                    savePlansList(updatedPlans);
+
+                    if (JSON.stringify(CURRENT_PAGE.selection) == JSON.stringify(inc)) {
+                        setDisplayPage(PAGES.SNIPE_PLAN);
+                    }
+
+                    loadInterface();
+
+                    return false;
+                });
+
+                $view.find('.reset-inc').click((ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    if (!confirm('Clear plans for this incoming?')) {
+                        return false;
+                    }
+
+                    var incId = parseInt($(ev.target).closest('div').data('inc-id'));
+
+                    var incPlans = loadSavedPlansList().filter((p) => p.incId == incId);
+                    removePlan(incPlans);
+                    loadInterface();
+
+                    return false;
+                });
+
+                $view.find('.add-all-inc-plans').click((ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    if (!confirm('Add all listed plans for this incoming?')) {
+                        return false;
+                    }
+
+                    var $options = $(ev.target).closest('div').find('.timing-option');
+                    $options.each((i, el) => {
+                        var timing = $(el).data('timing');
+                        savePlan(timing);
+                    });
+
+                    loadInterface();
+
+                    return false;
+                });
+
+                $(`.inc-entry[data-inc-id=${CURRENT_PAGE.selection.incId}]`).addClass('selected-tab');
+                break;
+        }
+
+        updateTimeCounters();
+    }
+
+    $('#snipe-plan').click(() => setDisplayPage(PAGES.SNIPE_PLAN));
+    $('#options-item').click(() => setDisplayPage(PAGES.OPTIONS));
+</script>
+
+<!-- Config and startup -->
+<script>
+
+    var PAGES = {
+        OPTIONS: 0,
+        SNIPE_PLAN: 0,
+        INCOMING_OVERVIEW: 0
+    };
+
+    objForEach(PAGES, (v, p) => PAGES[p] = p);
+
+    setDisplayPage(PAGES.SNIPE_PLAN);
+
+    $('#submit-options').click((ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        var preferredWindowSeconds = parseInt($('#preferred-window-seconds').val());
+        var timeSpacing = parseInt($('#time-spacing').val());
+
+        var settings = getCurrentSettings();
+
+        if (preferredWindowSeconds) {
+            settings.minimumWindowSeconds = preferredWindowSeconds;
+        }
+
+        if (timeSpacing) {
+            settings.snipeSpacingSeconds = timeSpacing;
+        }
+
+        saveSettings(settings);
+
+        return false;
+    });
+
+
+
+    function isDataAvailable() {
+        return !!getLocalStorageContainer() && validateData(getLocalStorageContainer());
+    }
+
+
+
+    function loadInterface() {
+
+        var $incomingsSummary = $('#incomings-summary');
+        var $incomingsList = $('#incomings-list');
+
+        console.log('loadInterface');
+
+        var currentIncomings = loadSavedIncomingsList();
+        var plans = loadSavedPlansList();
+
+        var pendingIncomings = [];
+        var oldIncomings = [];
+
+        $('.inc-entry').remove();
+        _.sortBy(currentIncomings, (i) => i.arrival).forEach((inc) => {
+            var $el = $(listEntryTemplate(inc));
+            $el.click(() => setDisplayPage(PAGES.INCOMING_OVERVIEW, inc));
+
+            if (inc.arrival < getServerTime()) {
+                oldIncomings.push($el);
+            } else {
+                pendingIncomings.push($el);
+            }
+        });
+
+        pendingIncomings.forEach(($inc) => {
+            $incomingsList.append($inc);
+        });
+
+        oldIncomings.forEach(($inc) => {
+            $incomingsList.append($inc.addClass('expired'));
+        });
+
+        $('.no-incomings-notice').remove();
+
+        if (!currentIncomings.length) {
+            $incomingsList.append($(noIncomingsLiTemplate()));
+        }
+
+        initSnipePlanPage();
+
+        var settings = loadSettings();
+        $('#preferred-window-seconds').val(settings.minimumWindowSeconds);
+        $('#time-spacing').val(settings.snipeSpacingSeconds);
+
+        updateTimeCounters();
+
+        setDisplayPage();
+    }
+
+    function initSnipePlanPage() {
+
+        if (!isDataAvailable()) return;
+
+        var $snipePlan = $('#snipes-overview');
+
+        $snipePlan.empty();
+        $snipePlan.append($(allPlanOverviewTemplate(getLocalStorageContainer())));
+        $snipePlan.find('.delete-plan').click((ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            if (!confirm('This plan will be deleted.')) {
+                return false;
+            }
+            var plan = $(ev.target).closest('tr').data('plan');
+            removePlan(plan);
+            loadInterface();
+
+            return false;
+        });
+
+        $snipePlan.find('.mark-success').click((ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            if (!confirm("Marking this snipe as successful will remove other snipe plans for this village.")) {
+                return false;
+            }
+
+            var currentPlans = loadSavedPlansList();
+            var plan = $(ev.target).closest('tr').data('plan');
+            currentPlans = currentPlans.filter((p) => JSON.stringify(p) == JSON.stringify(plan) || p.incId != plan.incId);
+            savePlansList(currentPlans)
+            loadInterface();
+
+            return false;
+        });
+
+        $snipePlan.find('.remove-all-plans').click((ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            if (!confirm('Remove all active plans?')) return false;
+
+            var now = getServerTime();
+            removePlan(loadSavedPlansList().filter((p) => {
+                return (now.valueOf() - snipeGetActionTime(p).valueOf()) < 0;
+            }));
+
+            loadInterface();
+
+            return false;
+        });
+
+        $snipePlan.find('.remove-all-expired-plans').click((ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            if (!confirm("Remove all expired plans?")) return false;
+
+            var now = getServerTime();
+            removePlan(loadSavedPlansList().filter((p) => {
+                return (now.valueOf() - snipeGetActionTime(p).valueOf()) >= 0;
+            }));
+
+            loadInterface();
+
+            return false;
+        });
+    }
+</script>
+
+<!-- Notify opener window on load (notify script to send data) -->
+<script>
+    loadInterface();
+    if (window.opener) {
+        window.opener.postMessage({
+            type: 'loaded'
+        }, '*');
+    }
+</script>
+</html>
