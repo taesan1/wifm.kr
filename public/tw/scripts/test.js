@@ -53,10 +53,11 @@ if(!aaa){main()}else{
     baseInterval = setInterval(timeBase, 2000); // 2초 간격으로 timeBase 함수 실행
     if (baseInterval) {
 
-        sendAtString1 = new Date(aaa)
-        aaa = new Date(new Date(aaa).getTime() - Timing.offset_to_server - (offset / 2));
-        sendAtString =sendAtString1.toISOString().slice(0, 19).replace('T', ' ');
-        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + sendAtString + ' </h3><a id="workingIndicator"></a>'
+        let sendAtString = sendAt;
+        sendAt += 'Z';
+        sendAt = new Date(new Date(sendAt).getTime() - Timing.offset_to_server - (offset / 2));
+        var send1= sendAtString.toISOString().slice(0, 19).replace('T', ' ');
+        document.getElementsByTagName("h2")[0].innerHTML = '<h3>Movement will be sent at ' + send1 + ' </h3><a id="workingIndicator"></a>'
         button()
     }
 }
