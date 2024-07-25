@@ -67,7 +67,7 @@ let def = JSON.parse(localStorage.getItem('MODE_DEF_options')) || {
 };
 
 var page, page1, page2, page3;
-var count =0;
+var count =0; var dip;
 var delay=Math.floor(Math.random() * 90)+parseInt(am.delay);
 var mode=localStorage.getItem('mode') || 0;
 var now=localStorage.getItem('now') || "대기";
@@ -434,7 +434,7 @@ if(document.URL.match(page)){
         </td>
         <td>
             <input id="delayInput" value="${delayTime}" style="width:50px">
-            <a id="delayButton" class="btn">OK</a>
+            <a id="delayButton" class="btn">OK</a><a id="resetButton" class="btn" style="margin-left: 1px;">초기화</a>
         </td>
     </tr>`;
 
@@ -507,6 +507,8 @@ if(document.URL.match(page)){
             }
         }, 1);
         localStorage.setItem("auto" + window.game_data.village.id,"1") }
+
+
     document.getElementById("arrTime").onclick = function () {
         clearInterval(attInterval)
         var element = document.querySelector("#command-data-form > div > table > tbody > tr:nth-child(2) > td:nth-child(2) > span > a:nth-child(1)");
@@ -584,6 +586,10 @@ if(document.URL.match(page)){
         if (delay < 0) {
             delay = 0;
         }
+    }
+    document.getElementById("resetButton").onclick = function () {
+        delete localStorage["autotime" + window.game_data.village.id];
+        location.reload();
     }
 
     document.getElementById("sendTime").onclick = function() {

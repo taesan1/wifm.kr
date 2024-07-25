@@ -46,7 +46,10 @@ var setArrivalHtml =
 }
         function setArrivalTime(mmm, sss) {
             var arrivalTime;
-            var result = sss - Timing.offset_to_server + 10;
+            var offt= Timing.offset_from_server -Timing.offset_to_server;
+            console.log("offt "+offt);console.log("Timing.offset_from_server "+Timing.offset_from_server);
+            console.log("iming.offset_to_server "+Timing.offset_to_server);
+            var result = sss - offt;
             var ssss = result > 0 ? parseInt(result) : 0;
 
             arrInterval = setInterval(function () {
