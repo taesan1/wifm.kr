@@ -55,7 +55,7 @@ if (dip && document.URL.match(/screen=place/i)) {
                 if (t2.test(row.cells[2].innerHTML) && t.test(row.cells[0].innerHTML)) {
                     var bb = row.cells[2].innerHTML.split("?")[1];
                     bb = bb.split("\"")[0];
-                    var n1 = "https://" + world + ".tribalwars.net/game.php?" + bb;
+                    var n1 = "https://" + world + ".tribalwars.com.br/game.php?" + bb;
                     console.log(n1);
                     n1 = n1.replace(/amp;/g, "");
 
