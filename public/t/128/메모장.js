@@ -16,7 +16,6 @@ if (!document.URL.match(/screen=info_command&id=/i)) {
     var cst = new Date(cs).getTime(); console.log("cat : "+cst);
 //
 
-
     let $rows = $('.vis:first-of-type tr');
     console.log('$rows:', $rows.html());
     var $arrivalRow = $rows.filter((i, el) => $(el).text().indexOf('Chegada:') >= 0);
