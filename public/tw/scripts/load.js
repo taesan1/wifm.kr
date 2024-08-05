@@ -64,12 +64,15 @@ if (N('x') && N('x').value == '') {
     coords = coords.split('|');
     index++;
 
-    cookie_date = new Date(2051, 08, 11);
+    cookie_date = new Date(2051, 0
+    8, 11
+)
+    ;
     d.cookie = name + '=' + index + ';expires=' + cookie_date.toGMTString(); // 쿠키 저장
 
     N('x').value = coords[0];
     N('y').value = coords[1];
-
+}
     var pop = limit;
     if (limit % 2 !== 0) {
         pop += 1;
@@ -223,4 +226,3 @@ if (N('x') && N('x').value == '') {
    
 
 
-}
