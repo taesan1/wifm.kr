@@ -194,9 +194,23 @@ if (N('x') && N('x').value == '') {
                         pop -= heavyToUse * unit.heavy.pop;
                     }
                 } else {
-                    let spyToUse = Math.min(unit.spy.n, Math.floor(pop / unit.spy.pop));
-                    unit.spy.t += spyToUse;
-                    pop -= spyToUse * unit.spy.pop;
+                    let spyToUse = Math.min(unit.spy.n-unit.spy.t, Math.floor(pop / unit.spy.pop));
+                    if(spyToUse<unit.spy.n){
+                        unit.spy.t += spyToUse;
+                        pop -= spyToUse * unit.spy.pop;
+                    }else{
+                    unit.spy.t = unit.spy.n
+                    pop -= unit.spy.n * unit.spy.pop;
+                        let spearToUse = Math.min(unit.spear.n, Math.floor(pop / unit.spear.pop));
+                        unit.spear.t += spearToUse;
+                        pop -= spearToUse * unit.spear.pop;
+                        let swordToUse = Math.min(unit.sword.n, Math.floor(pop / unit.sword.pop));
+                        unit.sword.t += swordToUse;
+                        pop -= swordToUse * unit.sword.pop;
+                        let axeToUse = Math.min(unit.axe.n, Math.floor(pop / unit.axe.pop));
+                        unit.axe.t += axeToUse;
+                        pop -= axeToUse * unit.axe.pop;
+                    }
                 }
             }
             let element = N(i);
