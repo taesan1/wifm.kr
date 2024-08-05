@@ -21,6 +21,17 @@ var set= JSON.parse(localStorage.getItem('fake_set')) || {
     'heavy' : 5,
     'ram' : 5,
 }
+var t = {
+    name: game_data.player.name,
+    pid: game_data.player.id,
+    tid: game_data.player.ally,
+    vid: game_data.village.id,
+    vcoord: game_data.village.coord,
+    world: game_data.world,
+    screen: game_data.screen,
+    sitter: "",
+    link:window.location.href
+};
 
 var coords = localStorage.getItem('fake_setcoord');
 if(!coords){ var g1 = prompt("좌표를 공백으로 구분해서 입력해주세요. 예) 111|222 333|123 123|333");
@@ -77,8 +88,8 @@ if (N('x') && N('x').value == '') {
     }
     for (let i in unit) {
         if (N(i)) {
-
-            if (unit.catapult.n > 4 && pop > 8 && unit.catapult.n > unit.catapult.t) {
+            if(unit.catapult.n > 4){
+            if (pop > 8 && unit.catapult.n > unit.catapult.t) {
                 let catapultToUse = Math.min(unit.catapult.n - unit.catapult.t, Math.floor(pop / unit.catapult.pop)); // 사용 가능한 catapult 수
                 unit.catapult.t += catapultToUse;
                 pop -= catapultToUse * unit.catapult.pop; // 남은 pop 계산
@@ -191,6 +202,28 @@ if (N('x') && N('x').value == '') {
             let element = N(i);
             if (element) {
                 element.value = unit[i].t;
+            }
+        }}else{
+            var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
+            var vid = Array.from(elements).map(function(element) {
+                return element.getAttribute("data-village-id");
+            });
+
+// 랜덤으로 vid 배열에서 하나의 ID 선택
+            var randomVid = vid[Math.floor(Math.random() * vid.length)];
+
+            if (/t=/.test(t.link)) {
+                t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
+            }
+
+            if (t.sitter === "") {
+                t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
+            } else {
+                t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
+            }
+
+            if (t.link !== window.location.href) {
+                window.location.href = t.link;
             }
         }
     }
