@@ -203,7 +203,7 @@ if (N('x') && N('x').value == '') {
             if (element) {
                 element.value = unit[i].t;
             }
-        }
+        
             document.forms.units.attack.click() }else{
             var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
             var vid = Array.from(elements).map(function(element) {
@@ -226,7 +226,7 @@ if (N('x') && N('x').value == '') {
             if (t.link !== window.location.href) {
                 window.location.href = t.link;
             }
-        }
+        }}
     }
 
 
