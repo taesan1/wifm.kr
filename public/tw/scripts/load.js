@@ -21,18 +21,6 @@ var set= JSON.parse(localStorage.getItem('fake_set')) || {
     'heavy' : 5,
     'ram' : 5,
 }
-var t = {
-    name: game_data.player.name,
-    pid: game_data.player.id,
-    tid: game_data.player.ally,
-    vid: game_data.village.id,
-    vcoord: game_data.village.coord,
-    world: game_data.world,
-    screen: game_data.screen,
-    sitter: "",
-    link:window.location.href
-};
-
 var coords = localStorage.getItem('fake_setcoord');
 if(!coords){ var g1 = prompt("좌표를 공백으로 구분해서 입력해주세요. 예) 111|222 333|123 123|333");
     localStorage.setItem('fake_setcoord', g1);}
@@ -219,24 +207,20 @@ if (N('x') && N('x').value == '') {
             }
             document.forms.units.attack.click() }else{
                 var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
-
                 var vid = Array.from(elements).map(function(element) {
                     return element.getAttribute("data-village-id");
                 });
-
-// 랜덤으로 vid 배열에서 하나의 ID 선택
                 var randomVid = vid[Math.floor(Math.random() * vid.length)];
-                    if (/t=/.test(t.link)) {
-                        t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
-                    }
-                    if (t.sitter === "") {
-                        t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
-                    } else {
-                        t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
-                    }
+                var sitter = "";
+                var bbb = window.location.href;
+                var villageid = (bbb.split("village=")[1]).split("&")[0];
+                if (/t=/g.test(bbb)) {
+                    sitter = "t=" + (bbb.split("t=")[1]).split("&")[0];
+                }
+                bbb =  document.URL.split('?')[0] + "?" + sitter + "&village=" + randomVid + "&screen=place";
             }}
     }
-
+   
 
 
 }
