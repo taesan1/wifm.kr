@@ -20,5 +20,25 @@ if(document.URL.match(page2)){ alert("그룹 미니 화면을 열어주세요");
 var page=new RegExp("&screen=place&try=confirm");
 if(document.URL.match(page)){
     document.forms[0].troop_confirm_submit.click();
+    setTimeout(function (){
+        var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
+        var vid = Array.from(elements).map(function(element) {
+            return element.getAttribute("data-village-id");
+        });
+        var randomVid = vid[Math.floor(Math.random() * vid.length)];
+        if (/t=/.test(t.link)) {
+            t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
+        }
+
+        if (t.sitter === "") {
+            t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
+        } else {
+            t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
+        }
+
+        if (t.link !== window.location.href) {
+            window.location.href = t.link;
+        }
+    },2000)
 }
 
