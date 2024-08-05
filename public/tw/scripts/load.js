@@ -197,4 +197,4 @@ if (N('x') && N('x').value == '') {
 
 
 
-}document.forms.units.attack.click();void 0
+}document.forms.units.attack.click()
