@@ -217,30 +217,24 @@ if (N('x') && N('x').value == '') {
             if (element) {
                 element.value = unit[i].t;
             }
-        
             document.forms.units.attack.click() }else{
-            var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
-            var vid = Array.from(elements).map(function(element) {
-                return element.getAttribute("data-village-id");
-            });
+                var elements = document.querySelectorAll("#group_table > tbody [data-village-id]");
+
+                var vid = Array.from(elements).map(function(element) {
+                    return element.getAttribute("data-village-id");
+                });
 
 // 랜덤으로 vid 배열에서 하나의 ID 선택
-            var randomVid = vid[Math.floor(Math.random() * vid.length)];
-
-            if (/t=/.test(t.link)) {
-                t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
-            }
-
-            if (t.sitter === "") {
-                t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
-            } else {
-                t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
-            }
-
-            if (t.link !== window.location.href) {
-                window.location.href = t.link;
-            }
-        }}
+                var randomVid = vid[Math.floor(Math.random() * vid.length)];
+                    if (/t=/.test(t.link)) {
+                        t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
+                    }
+                    if (t.sitter === "") {
+                        t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
+                    } else {
+                        t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
+                    }
+            }}
     }
 
 
