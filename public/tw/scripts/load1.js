@@ -1,6 +1,5 @@
-const page1 = new RegExp("screen=place");
-const page2 = new RegExp("undefined");
-
+var page1 = new RegExp("screen=place");
+var page2 = new RegExp("undefined");
 if (document.URL.match(page1) && !document.URL.match(page2)) {
         // 100 기준 비율설정하시면 됩니다
         var set= JSON.parse(localStorage.getItem('fake_set')) || {
