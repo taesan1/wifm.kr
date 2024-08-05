@@ -13,14 +13,14 @@ var unit={
 }
 var set= JSON.parse(localStorage.getItem('fake_set')) || {
     'type':0,
-  'spear' : 5,
+    'spear' : 5,
     'sword' : 5,
     'axe' : 5,
     'spy' : 40,
     'light' : 40,
     'heavy' : 5,
     'ram' : 5,
-  }
+}
 
 var coords = localStorage.getItem('fake_setcoord');
 if(!coords){ var g1 = prompt("좌표를 공백으로 구분해서 입력해주세요. 예) 111|222 333|123 123|333");
@@ -56,7 +56,7 @@ if (N('x') && N('x').value == '') {
         N(name).style.color = '#F00';
         N(name).innerHTML = ' 완료 ';
     } else
-        N(name).style.color = 'green'; 
+        N(name).style.color = 'green';
 
     if (index >= coords.length)
         index = 0;
