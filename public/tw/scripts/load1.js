@@ -1,5 +1,5 @@
 javascript:
-  var  page1=new RegExp("&screen=place");
+  var  page1=new RegExp("screen=place");
     if (document.URL.match(page1)) {
         // 100 기준 비율설정하시면 됩니다
         var set= JSON.parse(localStorage.getItem('fake_set')) || {
