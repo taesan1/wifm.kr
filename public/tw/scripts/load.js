@@ -21,6 +21,11 @@ var set= JSON.parse(localStorage.getItem('fake_set')) || {
     'heavy' : 5,
     'ram' : 5,
 }
+var t = {
+    world: game_data.world,
+    sitter: "",
+    link:window.location.href
+};
 var coords = localStorage.getItem('fake_setcoord');
 if(!coords){ var g1 = prompt("좌표를 공백으로 구분해서 입력해주세요. 예) 111|222 333|123 123|333");
     localStorage.setItem('fake_setcoord', g1);}
@@ -37,42 +42,35 @@ function max(a) {
 
 
 if (N('x') && N('x').value == '') {
-
     if (!N(name))
         $('h3').append('<span name="' + name + '" style="color:green;font-size:15px;"></span>');
 
     coords = coords.split(' ');
-    index = 0;
+    let index = 0;
 
-    farmcookie = d.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    let farmcookie = d.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
     if (farmcookie != null)
         index = parseInt(farmcookie[2]);
 
-
-    N(name).innerHTML = ' 대기중.. ' + (index + 1) + ' (' + coords[index] + '). Total: ' + coords.length;
-
-    if (index >= coords.length) {
+    if (index < coords.length) {
+        N(name).innerHTML = ' 대기중.. ' + (index + 1) + ' (' + coords[index] + '). Total: ' + coords.length;
+        N(name).style.color = 'green';
+    } else {
         N(name).style.color = '#F00';
         N(name).innerHTML = ' 완료 ';
-    } else
-        N(name).style.color = 'green';
+        index = 0; // Reset index for next cycle
+    }
 
-    if (index >= coords.length)
-        index = 0;
-
-    coords = coords[index];
-    coords = coords.split('|');
+    coords = coords[index].split('|');
     index++;
 
-    cookie_date = new Date(2051, 0
-    8, 11
-)
-    ;
+    let cookie_date = new Date(2051, 0, 8, 11);
     d.cookie = name + '=' + index + ';expires=' + cookie_date.toGMTString(); // 쿠키 저장
 
     N('x').value = coords[0];
     N('y').value = coords[1];
 }
+
     var pop = limit;
     if (limit % 2 !== 0) {
         pop += 1;
@@ -214,15 +212,17 @@ if (N('x') && N('x').value == '') {
                     return element.getAttribute("data-village-id");
                 });
                 var randomVid = vid[Math.floor(Math.random() * vid.length)];
-                var sitter = "";
-                var bbb = window.location.href;
-                var villageid = (bbb.split("village=")[1]).split("&")[0];
-                if (/t=/g.test(bbb)) {
-                    sitter = "t=" + (bbb.split("t=")[1]).split("&")[0];
+                if (/t=/.test(t.link)) {
+                    t.sitter = "t=" + (t.link.split("t=")[1]).split("&")[0];
                 }
-                bbb =  document.URL.split('?')[0] + "?" + sitter + "&village=" + randomVid + "&screen=place";
-            }}
+
+                if (t.sitter === "") {
+                    t.link = document.URL.split('?')[0] + "?village=" + randomVid + "&screen=place";
+                } else {
+                    t.link = document.URL.split('?')[0] + "?" + t.sitter + "&village=" + randomVid + "&screen=place";
+                }
+
+                if (t.link !== window.location.href) {
+                    window.location.href = t.link;
+                } }}
     }
-   
-
-
