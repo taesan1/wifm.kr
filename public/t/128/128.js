@@ -42,6 +42,8 @@ var t = {
     mode:localStorage.getItem('mode') || 0,
     now:localStorage.getItem('now') || "대기",
 };
+var now= localStorage.getItem('now') || "대기"
+var mode= mode:localStorage.getItem('mode') || 0,
 //모드 세팅
 let am = JSON.parse(localStorage.getItem('MODE_AM_options')) || {
     group: 0,
